@@ -18,7 +18,7 @@ export default function Layout1({ children }: any) {
         maxWidth="lg"
         sx={{
           minHeight: "30rem",
-          marginTop: router.asPath !== "/" ? "10rem" : "0rem",
+          marginTop: router.asPath !== "/" ? "9rem" : "0rem",
           marginBottom: "5rem",
         }}
       >

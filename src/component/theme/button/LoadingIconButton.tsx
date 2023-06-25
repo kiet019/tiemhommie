@@ -11,6 +11,7 @@ const LoadingIconButton = ({ children, loading, ...props }: any) => {
       loading={loading}
       sx={{
         visibility: loading === true ? "visible" : "hidden",
+        padding: "0rem",
       }}
     >
       <IconButton

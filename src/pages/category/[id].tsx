@@ -37,7 +37,7 @@ export default function Category({
   return (
     <Layout1>
       <Title1 title={title.toUpperCase()} />
-      <ProductList2 productList={productList} row={4} col={3} />
+      <ProductList2 productList={productList} row={3} col={4} />
     </Layout1>
   );
 }

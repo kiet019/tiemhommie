@@ -1,4 +1,3 @@
-// 1. import `NextUIProvider` component
 import "../styles/global.scss";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../styles/Theme";
@@ -26,7 +25,9 @@ function MyApp({ Component, pageProps }: any) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Loading />
-        <Component {...pageProps} />
+        <div style={{ backgroundColor: "#F6F9FC" }}>
+          <Component {...pageProps} />
+        </div>
       </ThemeProvider>
     </Provider>
   );

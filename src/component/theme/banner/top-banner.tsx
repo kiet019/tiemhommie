@@ -1,3 +1,4 @@
+import { setup } from "@/config/setup";
 import { CardMedia, Pagination } from "@mui/material";
 import React, { useEffect, useState } from "react";
 export default function TopBanner({ children, slider }: any) {
@@ -17,8 +18,9 @@ export default function TopBanner({ children, slider }: any) {
         alt="green iguana"
         image={`/assets/images/${slider[index]}`}
         sx={{
-          height: "30rem",
-          marginTop: "10rem",
+          height: "45rem",
+          paddingTop: "10rem",
+          backgroundColor: setup.backgroundColor
           // objectFit: "contain"
         }}
       />

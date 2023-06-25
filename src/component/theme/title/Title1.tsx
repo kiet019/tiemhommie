@@ -5,7 +5,8 @@ const Title1 = ({ title, children }: { title: string; children?: any }) => {
   return (
     <div
       style={{
-        marginTop: "5rem",
+        marginTop: "4rem",
+        paddingTop: "1rem",
         display: "flex",
         justifyContent: "space-between",
         marginBottom: "2rem",

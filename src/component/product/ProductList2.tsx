@@ -26,7 +26,7 @@ export default function ProductList2({ productList, row, col }: Props) {
         {productList
           .slice(0 + (page - 1) * (row * col), page * (row * col))
           .map((product: any, key: any) => (
-            <Grid item xs={12/row} key={key}>
+            <Grid item xs={12/col} key={key}>
               <ProductCard product={product} />
             </Grid>
           ))}

@@ -11,7 +11,7 @@ export default function ProductListSkeleton({ row, col }: Props) {
   const createSkeleton = (row: number, col: number) => {
       for (let i = 0; i < row * col; i++) {
         skeletons.push(
-          <Grid item xs={12 / row} key={i}>
+          <Grid item xs={12 / col} key={i}>
             <ProductSkeleton />
           </Grid>
         );

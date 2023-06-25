@@ -1,12 +1,13 @@
 export const setup = {
   name: "TiemHommie",
   navigationColor: "#FF9B9B",
+  colorCode: "#FF9B9B",
   color: "white",
   banner: "/assets/images/banner.jpg",
   error: "rgb(211, 47, 47)",
   success: "rgb(46, 125, 50)",
   email: "cskg.tiemhommie@gmail.com",
-  colorCode: "#FF9B9B",
+  backgroundColor:  "#F6F9FC"
 };
 export const categoryList = [
   {

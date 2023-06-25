@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { setup, suggest } from "../../../config/setup";
+import { block, setup, suggest } from "../../../config/setup";
 import { useRouter } from "next/router";
 import { Autocomplete, TextField } from "@mui/material";
 
@@ -21,18 +21,21 @@ export default function SearchBox() {
     });
     setSuggestions(newSuggestions);
   };
-  const handleSelectSuggestion = (event :any, value:any) => {
+  const handleSelectSuggestion = (event: any, value: any) => {
     setSearchValue(value);
   };
   const handleSubmit = (event: any) => {
-    event.preventDefault()
+    event.preventDefault();
     router.push(`/search/${searchValue}`);
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{
-      position: "relative"
-    }}>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        position: "relative",
+      }}
+    >
       <label
         htmlFor="search"
         style={{
@@ -61,6 +64,7 @@ export default function SearchBox() {
             id="search"
             variant="outlined"
             value={searchValue}
+            onChange={handleSearchChange}
             sx={{
               "& .MuiInputBase-root": {
                 backgroundColor: "white",

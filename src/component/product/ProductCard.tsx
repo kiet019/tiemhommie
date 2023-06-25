@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { setup } from "@/config/setup";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { IconButton, Tooltip, Zoom } from "@mui/material";
+import { Box, IconButton, Tooltip, Zoom } from "@mui/material";
 import { useRouter } from "next/router";
 import { useAppDispatch } from "@/feature/Hooks";
 import { setOpen } from "@/feature/Alert";
@@ -21,15 +21,15 @@ export default function ProductCard({ product }: any) {
   const formatNumber = (number: number) => {
     return number.toLocaleString("en-US");
   };
-  const [loading, setLoading] = React.useState<boolean>(false)
+  const [loading, setLoading] = React.useState<boolean>(false);
   const dispatch = useAppDispatch();
   //   const { user } = React.useContext(UserContext);
   //   const { cart } = React.useContext(CartContext)
   const handleAddtoCart = async () => {
-    setLoading(true)
+    setLoading(true);
     setTimeout(() => {
-      setLoading(false)
-    }, 3000)
+      setLoading(false);
+    }, 3000);
     // if (user === null ) {
     //   dispatch(
     //     setOpen({
@@ -74,7 +74,7 @@ export default function ProductCard({ product }: any) {
       />
       <div
         style={{
-          padding: "1rem 1rem 0.5rem",
+          padding: "1rem 0rem 0.5rem 1rem",
         }}
       >
         <Typography
@@ -83,6 +83,7 @@ export default function ProductCard({ product }: any) {
           sx={{
             overflow: "hidden",
             fontWeight: "600",
+            paddingRight: "1rem",
             fontSize: "1.1rem",
           }}
         >
@@ -95,12 +96,10 @@ export default function ProductCard({ product }: any) {
         >
           {product.quantity > 0 ? "Còn hàng" : "Hết hàng"}
         </Typography>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: "0rem",
+        <CardActions
+          sx={{
+            padding: 0,
+            justifyContent: "space-between"
           }}
         >
           <Typography
@@ -112,10 +111,14 @@ export default function ProductCard({ product }: any) {
           >
             {formatNumber(product.price)} VND
           </Typography>
-          <LoadingIconButton loading={true} size="large" onClick={handleAddtoCart}>
+          <LoadingIconButton
+            loading={loading}
+            size="large"
+            onClick={handleAddtoCart}
+          >
             <AddShoppingCartIcon />
           </LoadingIconButton>
-        </div>
+        </CardActions>
       </div>
     </Card>
   );

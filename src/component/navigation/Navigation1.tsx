@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import LogoTitle from "../theme/title/LogoTitle";
 import NavButton from "../theme/button/NavButton";
 import SearchBox from "../theme/search/SearchBox";
-import { categoryList } from "@/config/setup";
+import { categoryList, setup } from "@/config/setup";
 import CartIconButton from "../theme/button/CartIconButton";
 import AccountIconButton from "../theme/button/AccountIconButton";
 import { CheckInView } from "@/checkInScreen";
@@ -14,7 +14,7 @@ const Navigation1 = () => {
       <CheckInView setIsVisible={setIsVisible}>
         <AppBar
           sx={{
-            backgroundColor: "#F5F5F4",
+            backgroundColor: setup.backgroundColor,
             paddingBottom: "1rem",
             boxShadow: isVisible? "none" : null
           }}

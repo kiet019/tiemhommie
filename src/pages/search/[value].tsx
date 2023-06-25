@@ -1,6 +1,6 @@
 import React from "react";
 import Layout1 from "@/component/theme/layout/Layout1";
-import { Grid } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import ProductFilter from "@/component/product/ProductFilter";
 import { useRouter } from "next/router";
 import ProductListSkeleton from "@/component/product/ProductListSkeleton";
@@ -16,18 +16,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<any> = async ({params}) => {
+export const getStaticProps: GetStaticProps<any> = async ({ params }) => {
   return {
     props: {
-      value: params?.value
+      value: params?.value,
     },
   };
 };
 interface Props {
-  value: string
+  value: string;
 }
-export default function Search({value} : Props) {
+export default function Search({ value }: Props) {
   const { data, isLoading, error } = UseSearchProductName(value);
+  const productList = data?.data as Product[];
   return (
     <Layout1>
       <Grid container spacing={2}>
@@ -35,14 +36,23 @@ export default function Search({value} : Props) {
           <ProductFilter />
         </Grid>
         <Grid item xs={9}>
+
+            <Typography variant="h4">
+              {`Kết quả tìm kiếm cho "${value}"`}
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                fontWeight: "600",
+                color: "gray",
+              }}
+            >
+              {productList?.length} sản phẩm tìm thấy
+            </Typography>
           {isLoading ? (
-            <ProductListSkeleton col={3} row={3} />
+            <ProductListSkeleton col={3} row={4} />
           ) : (
-            <ProductList2
-              col={3}
-              row={3}
-              productList={data?.data as Product[]}
-            />
+            <ProductList2 col={3} row={3} productList={productList} />
           )}
         </Grid>
       </Grid>

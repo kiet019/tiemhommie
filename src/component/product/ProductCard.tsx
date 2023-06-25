@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { useAppDispatch } from "@/feature/Hooks";
 import { setOpen } from "@/feature/Alert";
 import UrlImage from "../theme/image/Image1";
+import dynamic from "next/dynamic";
 import LoadingIconButton from "../theme/button/LoadingIconButton";
 // import { addToCartApi } from "@/pages/api/CartItemApi";
 // import { UserContext } from "../login/AuthContext";
@@ -111,7 +112,7 @@ export default function ProductCard({ product }: any) {
           >
             {formatNumber(product.price)} VND
           </Typography>
-          <LoadingIconButton loading={loading} size="large" onClick={handleAddtoCart}>
+          <LoadingIconButton loading={true} size="large" onClick={handleAddtoCart}>
             <AddShoppingCartIcon />
           </LoadingIconButton>
         </div>

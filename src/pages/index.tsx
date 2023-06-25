@@ -6,13 +6,14 @@ import { ResponseBody } from "../../package/model/api";
 import { CategoryAndProduct } from "../../package/model/category-and-product";
 
 export async function getServerSideProps() {
-  const response : ResponseBody<CategoryAndProduct>= await UseGetCategoryProduct();
-  const categoryAndProduct = response.data  
+  const response: ResponseBody<CategoryAndProduct> =
+    await UseGetCategoryProduct();
+    const categoryAndProduct = response.data;
   const slider = ["slider1.jpg", "slider2.jpg", "slider3.jpg"];
   return {
     props: {
       slider,
-      categoryAndProduct,
+      categoryAndProduct: categoryAndProduct? categoryAndProduct : []
     },
   };
 }

@@ -1,4 +1,4 @@
-import { Typography, TextField, InputAdornment } from "@mui/material";
+import { Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import EmailIcon from "@mui/icons-material/Email";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
@@ -13,6 +13,7 @@ import LineText from "../theme/text/LineText";
 import StyledOutlinedInput from "../theme/input/StyledInput";
 import StyledLoadingButton from "../theme/button/StyledLoadingButton";
 import FlexBox from "../theme/flexbox/FlexBox";
+import { setup } from "@/config/setup";
 export default function RegisterCard() {
   const { register, handleSubmit, formState: { errors }, } = useForm()
   const [error, setError] = useState<any>(null)
@@ -35,7 +36,6 @@ export default function RegisterCard() {
         label="Email"
         error={errors.email !== undefined}
         helperText={errors.email !== undefined ? "bắt buộc" : ""}
-        icon={<EmailIcon />}
         {...register("email", {
           required: true
         })}
@@ -46,7 +46,6 @@ export default function RegisterCard() {
         error={errors.password !== undefined}
         helperText={errors.password !== undefined ? "bắt buộc ít nhất 6 kí tự" : ""}
         id="2"
-        icon={<LockPersonIcon />}
         {...register("password", {
           required: true,
           minLength: 6
@@ -58,6 +57,9 @@ export default function RegisterCard() {
         type="submit"
         fullWidth
         variant="contained"
+        style={{
+          backgroundColor: setup.inside
+        }}
       >
         Đăng kí
       </StyledLoadingButton>
@@ -70,7 +72,7 @@ export default function RegisterCard() {
       >
         <StyledButton
           variant="contained"
-          style={{ backgroundColor: "#F5A524" }}
+          style={{ backgroundColor: "rgb(220 137 3)" }}
           fullWidth
           onClick={() => {
             loginGoogle();

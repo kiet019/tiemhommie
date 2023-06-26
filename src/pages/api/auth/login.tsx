@@ -11,22 +11,20 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
         message: "error",
     })
     try {
-        const params = JSON.parse(req.body) as UseLoginBody
-        const userFirebase = await signInWithEmailAndPassword(params.auth, params.email, params.password)
-        console.log(userFirebase)
-        const response = await fetch(`http://localhost:8080/api/user/getUserByUserUid?userUid=${userFirebase.user.uid}`)
-        if (response.status === 200) {
+        const params = req.body as UseLoginBody<string>
+        const response = await fetch(`http://localhost:8080/api/user/getUserByUserUid?userUid=${params.auth}`)
+        if (response.ok) {
             const data : User = await response.json()
             res.status(200).json({
                 data: data,
                 status: "success",
-                message: "success",
+                message: "Success, login success",
             });
         } else {
             res.status(200).json({
                 data: null,
                 status: "error",
-                message: "Not found",
+                message: "Error, Login fails",
             });
         }
     } catch (error: any) {

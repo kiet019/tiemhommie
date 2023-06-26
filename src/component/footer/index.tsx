@@ -11,7 +11,7 @@ export default function Footer() {
   return (
     <div
       style={{
-        backgroundColor: setup.navigationColor,
+        backgroundColor: setup.border,
         paddingTop: "3.5rem",
         paddingBottom: "3.5rem",
       }}

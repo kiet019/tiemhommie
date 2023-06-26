@@ -1,7 +1,5 @@
 
 import { auth, ggProvider } from "@/config/firebase";
-import { setOpen } from "@/feature/Alert";
-import { useAppDispatch } from "@/feature/Hooks";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -10,22 +8,20 @@ import {
 } from "firebase/auth";
 import { useRouter } from "next/router";
 import { createContext, useEffect, useState } from "react";
+import { User } from "../../../package/model/user";
 const userInit = {
+  setUser: (user: User | null) => {},
   loginGoogle: () => {},
   registerFirebase: (email: any, password: any) => {},
   logout: () => {},
   createUser: (address: any, userName: any, phoneNumber: any) => {},
   user: null as any,
-  userBackend: null as any
 };
 export const UserContext = createContext(userInit);
 
 export default function AuthProvider({ children }: any) {
-  const dispatch = useAppDispatch();
   const router = useRouter();
-  const [currentUserBackend, setCurrentUserBackend] = useState<any>(null)
   const [currentUser, setCurrentUser] = useState<any>(null);
-  const userBackend = currentUserBackend
   const user = currentUser;
   const loginGoogle = async () => {
     try {
@@ -73,6 +69,10 @@ export default function AuthProvider({ children }: any) {
   const handleChange = async (user: any) => {
     console.log(user)
   };
+  const setUser = (user: User | null) => {
+    setCurrentUser(user)
+  }
+
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       handleChange(currentUser)
@@ -83,7 +83,7 @@ export default function AuthProvider({ children }: any) {
   }, [currentUser]);
   return (
     <UserContext.Provider
-      value={{ loginGoogle, logout, registerFirebase, createUser, user, userBackend }}
+      value={{ loginGoogle, logout, registerFirebase, createUser, setUser, user}}
     >
       {children}
     </UserContext.Provider>

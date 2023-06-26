@@ -1,10 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./ReduxStore";
-import { AlertColor } from "@mui/material";
 export interface Alert{
     open: boolean
     message: string
-    severity: AlertColor
+    severity: string
   }
   
 export const alertSlice = createSlice({

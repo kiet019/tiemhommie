@@ -29,7 +29,7 @@ const NavButton = ({ categoryList, isVisible }: { categoryList: Category[], isVi
         onClick={handleClick}
         sx={{
           "&.MuiMenuItem-root": {
-            backgroundColor: setup.colorCode,
+            backgroundColor: setup.border,
             fontWeight: "700",
             color: "white",
             borderRadius: "4px",
@@ -56,7 +56,7 @@ const NavButton = ({ categoryList, isVisible }: { categoryList: Category[], isVi
             href={`/category/${item.categoryId}`}
             key={key}
             style={{
-              color: setup.colorCode,
+              color: setup.border,
             }}
           >
             <MenuItem

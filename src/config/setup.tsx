@@ -1,7 +1,7 @@
 export const setup = {
   name: "TiemHommie",
-  navigationColor: "#FF9B9B",
-  colorCode: "#FF9B9B",
+  border: "#FF9B9B",
+  inside: "#cf5b5b",
   color: "white",
   banner: "/assets/images/banner.jpg",
   error: "rgb(211, 47, 47)",

@@ -13,7 +13,7 @@ const AccountIconButton = ({ ...props }: any) => {
         sx={{
           margin: "0 1rem",
           color: "white",
-          backgroundColor: setup.colorCode,
+          backgroundColor: setup.border,
         }}
       >
         <PersonIcon />

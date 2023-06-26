@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react";
-import EmailIcon from "@mui/icons-material/Email";
-import LockPersonIcon from "@mui/icons-material/LockPerson";
 import GoogleIcon from "@mui/icons-material/Google";
 import { UserContext } from "./AuthContext";
 import { useForm } from "react-hook-form";
@@ -12,9 +10,16 @@ import LineText from "../theme/text/LineText";
 import FlexBox from "../theme/flexbox/FlexBox";
 import { UseLogin } from "../../../package/function/auth/use-login";
 import { auth } from "@/config/firebase";
+import { useAppDispatch } from "@/feature/Hooks";
+import { setOpen } from "@/feature/Alert";
+import { setup } from "@/config/setup";
+import { useRouter } from "next/router";
 
 export default function LoginCard() {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+  const { setUser } = useContext(UserContext)
   const {
     register,
     handleSubmit,
@@ -22,13 +27,29 @@ export default function LoginCard() {
   } = useForm();
   const { loginGoogle } = useContext(UserContext);
   const onSubmit = async (fields: any) => {
-   setIsLoading(true)
-    await UseLogin({
-      email: fields.email,
-      password: fields.password,
-      auth: auth
-    });
-    setIsLoading(false)
+    try {
+      setIsLoading(true);
+      const data = await UseLogin({
+        email: fields.email,
+        password: fields.password,
+        auth: auth,
+      });
+      dispatch(setOpen({
+        message: data.message,
+        open: true,
+        severity: "success"
+      }))
+      setUser(data.data)
+      router.push("/")
+    } catch (error : any) {
+      dispatch(setOpen({
+        message: error.message,
+        open: true,
+        severity: "error"
+      }))
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -37,17 +58,17 @@ export default function LoginCard() {
         id="input-login"
         error={errors.email !== undefined}
         helperText={errors.email !== undefined ? "bắt buộc" : ""}
-        icon={<EmailIcon />}
+        // icon={<EmailIcon />}
         {...register("email", {
           required: true,
-        })} />
+        })}
+      />
       <br />
       <StyledOutlinedInput
         label="Password"
         id="input-login"
         error={errors.password !== undefined}
         helperText={errors.password !== undefined ? "bắt buộc" : ""}
-        icon={<LockPersonIcon />}
         {...register("password", {
           required: true,
         })}
@@ -55,6 +76,9 @@ export default function LoginCard() {
       />
       <StyledLoadingButton
         loading={isLoading}
+        style={{
+          backgroundColor: setup.inside
+        }}
         type="submit"
         fullWidth
         variant="contained"
@@ -69,7 +93,7 @@ export default function LoginCard() {
       >
         <StyledButton
           variant="contained"
-          style={{ backgroundColor: "#F5A524" }}
+          style={{ backgroundColor: "rgb(220 137 3)" }}
           fullWidth
           onClick={() => {
             loginGoogle();

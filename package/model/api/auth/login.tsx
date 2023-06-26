@@ -1,7 +1,7 @@
 import { Auth } from "firebase/auth"
 
-export interface UseLoginBody {
+export interface UseLoginBody<T> {
     email: string,
     password: string
-    auth: Auth
+    auth: T
 }

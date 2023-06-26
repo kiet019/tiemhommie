@@ -10,7 +10,7 @@ const LogoTitle = () => {
       href="/"
       style={{
         marginRight: "2rem",
-        color: setup.colorCode,
+        color: setup.border,
         textDecoration: "none",
       }}
     >

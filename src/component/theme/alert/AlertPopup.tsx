@@ -1,6 +1,6 @@
 import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import MuiAlert, { AlertColor, AlertProps } from "@mui/material/Alert";
 import { useAppDispatch, useAppSelector } from "@/feature/Hooks";
 import { close } from "../../../feature/Alert"
 
@@ -15,7 +15,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 interface Props {
   children: React.ReactNode;
 }
-export default function AlertPopup({ children }: Props) {
+export function AlertPopup({ children }: Props) {
   const alert = useAppSelector((state) => state.alert)
   const dispatch = useAppDispatch();
   const handleClose = (
@@ -39,7 +39,7 @@ export default function AlertPopup({ children }: Props) {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity={alert.severity} sx={{ width: "100%" }}>
+        <Alert onClose={handleClose} severity={alert.severity as AlertColor} sx={{ width: "100%" }}>
           {alert.message}
         </Alert>
       </Snackbar>

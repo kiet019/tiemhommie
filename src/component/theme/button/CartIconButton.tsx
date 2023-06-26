@@ -12,7 +12,7 @@ export default function CartIconButton({ url, ...props }: any) {
         size="large"
         sx={{
           color: "white",
-          backgroundColor: setup.colorCode
+          backgroundColor: setup.border
         }}
       >
         <Badge color="error">

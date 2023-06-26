@@ -48,9 +48,7 @@ export default function SearchBox() {
         }}
       >
         <SearchIcon
-          sx={{
-            color: setup.navigationColor,
-          }}
+          color="primary"
         />
       </label>
       <Autocomplete

@@ -27,7 +27,9 @@ interface Props {
   value: string;
 }
 export default function Search({ value }: Props) {
-  const { data, isLoading, error } = UseSearchProductName(value);
+  const { data, isLoading, error } = UseSearchProductName({
+    productName: value
+  });
   const productList = data?.data as Product[];
   return (
     <Layout1>

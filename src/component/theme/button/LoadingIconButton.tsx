@@ -23,7 +23,6 @@ const LoadingIconButton = ({ children, loading, ...props }: any) => {
           display: loading === true ? null : "none",
         }}
       >
-        ""
       </LoadingButton>
       </div>
   );

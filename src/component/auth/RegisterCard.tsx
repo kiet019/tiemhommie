@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import EmailIcon from "@mui/icons-material/Email";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import GoogleIcon from "@mui/icons-material/Google";
-import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { UserContext } from "./AuthContext";
 import { useAppDispatch } from "@/feature/Hooks";
@@ -13,12 +12,12 @@ import { StyledButton } from "../theme/button/StyledButton";
 import LineText from "../theme/text/LineText";
 import StyledOutlinedInput from "../theme/input/StyledInput";
 import StyledLoadingButton from "../theme/button/StyledLoadingButton";
+import FlexBox from "../theme/flexbox/FlexBox";
 export default function RegisterCard() {
   const { register, handleSubmit, formState: { errors }, } = useForm()
   const [error, setError] = useState<any>(null)
   const dispatch = useAppDispatch()
   const { registerFirebase, loginGoogle } = useContext(UserContext)
-  const router = useRouter();
   const onSubmit = async (data: any) => {
     const error: any = registerFirebase(data.email, data.password)
     error === undefined ? dispatch(
@@ -80,11 +79,7 @@ export default function RegisterCard() {
           <GoogleIcon style={{ fontSize: "1.5rem", marginRight: "1rem" }} />
           Đăng nhập bằng google
         </StyledButton>
-        <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }}>
+        <FlexBox>
           <StyledLink
             style={{
               color: "black",
@@ -101,7 +96,7 @@ export default function RegisterCard() {
           >
             Đăng nhập
           </StyledLink>
-        </div>
+        </FlexBox>
       </div>
     </form>
   );

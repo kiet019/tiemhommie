@@ -11,7 +11,7 @@ const NewLoadingButton= styled(LoadingButton) ({
   color: "white",
   paddingTop: "0.7rem",
   paddingBottom: "0.7rem",
-  margin: "0rem 0rem 1rem",
+  margin: "0rem 0rem 0.5rem",
 })
 const StyledLoadingButton = ({ children, ...props }: any) => {
   return <NewLoadingButton {...props}>{children}</NewLoadingButton>;

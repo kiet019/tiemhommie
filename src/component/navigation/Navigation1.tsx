@@ -15,7 +15,7 @@ const Navigation1 = () => {
         <AppBar
           sx={{
             backgroundColor: setup.backgroundColor,
-            paddingBottom: "1rem",
+            paddingBottom: "0.6rem",
             boxShadow: isVisible? "none" : null
           }}
         >

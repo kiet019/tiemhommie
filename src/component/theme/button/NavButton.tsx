@@ -32,7 +32,7 @@ const NavButton = ({ categoryList, isVisible }: { categoryList: Category[], isVi
             backgroundColor: setup.colorCode,
             fontWeight: "700",
             color: "white",
-            // borderRadius: "1rem",
+            borderRadius: "4px",
           },
         }}
       >

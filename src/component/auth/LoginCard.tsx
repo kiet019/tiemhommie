@@ -1,28 +1,34 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import EmailIcon from "@mui/icons-material/Email";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import GoogleIcon from "@mui/icons-material/Google";
-import { useRouter } from "next/router";
 import { UserContext } from "./AuthContext";
 import { useForm } from "react-hook-form";
-import { useAppDispatch } from "@/feature/Hooks";
 import StyledLink from "../theme/navLink/Link";
 import { StyledButton } from "../theme/button/StyledButton";
 import StyledOutlinedInput from "../theme/input/StyledInput";
 import StyledLoadingButton from "../theme/button/StyledLoadingButton";
 import LineText from "../theme/text/LineText";
+import FlexBox from "../theme/flexbox/FlexBox";
+import { UseLogin } from "../../../package/function/auth/use-login";
+import { auth } from "@/config/firebase";
 
 export default function LoginCard() {
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { loginGoogle, login } = useContext(UserContext);
-  const onSubmit = (data: any) => {
-    console.log(data)
-    const errors = login(data.email, data.password);
+  const { loginGoogle } = useContext(UserContext);
+  const onSubmit = async (fields: any) => {
+   setIsLoading(true)
+    await UseLogin({
+      email: fields.email,
+      password: fields.password,
+      auth: auth
+    });
+    setIsLoading(false)
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -30,6 +36,7 @@ export default function LoginCard() {
         label="Email"
         id="input-login"
         error={errors.email !== undefined}
+        helperText={errors.email !== undefined ? "bắt buộc" : ""}
         icon={<EmailIcon />}
         {...register("email", {
           required: true,
@@ -39,23 +46,15 @@ export default function LoginCard() {
         label="Password"
         id="input-login"
         error={errors.password !== undefined}
+        helperText={errors.password !== undefined ? "bắt buộc" : ""}
         icon={<LockPersonIcon />}
         {...register("password", {
           required: true,
         })}
         type="password"
       />
-      <div
-        style={{
-          justifyContent: "space-between",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-
-      </div>
       <StyledLoadingButton
-        loading={false}
+        loading={isLoading}
         type="submit"
         fullWidth
         variant="contained"
@@ -79,11 +78,7 @@ export default function LoginCard() {
           <GoogleIcon sx={{ fontSize: "1.5rem", marginRight: "1rem" }} />
           Đăng nhập bằng google
         </StyledButton>
-        <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }}>
+        <FlexBox>
           <StyledLink
             style={{
               color: "black",
@@ -100,7 +95,7 @@ export default function LoginCard() {
           >
             Đăng kí
           </StyledLink>
-        </div>
+        </FlexBox>
       </div>
     </form>
   );

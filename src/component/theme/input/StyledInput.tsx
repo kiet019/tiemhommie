@@ -40,4 +40,5 @@ const StyledOutlinedInput = forwardRef(({ label, id, icon, ...props }: any, ref)
         </>
     )
 })
+StyledOutlinedInput.displayName = 'StyledOutlinedInput';
 export default StyledOutlinedInput

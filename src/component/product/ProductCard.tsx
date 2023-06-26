@@ -46,13 +46,13 @@ export default function ProductCard({ product }: any) {
     //       })
     //     );
     //   } else {
-    //     dispatch(
-    //       setOpen({
-    //         open: true,
-    //         message: "Adding fail",
-    //         severity: "error",
-    //       })
-    //     );
+        dispatch(
+          setOpen({
+            open: true,
+            message: "Adding fail",
+            severity: "error",
+          })
+        );
     //   }
     // }
   };

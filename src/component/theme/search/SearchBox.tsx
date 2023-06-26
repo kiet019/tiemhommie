@@ -26,7 +26,8 @@ export default function SearchBox() {
   };
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    router.push(`/search/${searchValue}`);
+    const checkedValue = block(searchValue)
+    router.push(`/search/${checkedValue}`);
   };
 
   return (
@@ -54,7 +55,6 @@ export default function SearchBox() {
       </label>
       <Autocomplete
         freeSolo
-        onInputChange={handleSearchChange}
         onChange={handleSelectSuggestion}
         options={suggestions}
         renderInput={(params) => (

@@ -8,7 +8,7 @@ export default function ImageDetail({ img }: {img: string}) {
       alt="green iguana"
       image={"/assets/images/" + img}
       sx={{
-        height: "374px",
+        height: "335px",
       }}
     />
   );

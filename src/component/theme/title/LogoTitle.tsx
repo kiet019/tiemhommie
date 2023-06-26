@@ -15,7 +15,6 @@ const LogoTitle = () => {
       }}
     >
       <Typography
-        component="div"
         sx={{
           display: {
             xs: "none",
@@ -30,14 +29,14 @@ const LogoTitle = () => {
         {setup.name}
       </Typography>
       <Typography
-        component="div"
         sx={{
           display: {
+            fontSize: "1.1rem",
             xs: "none",
             sm: "block",
             letterSpacing: ".1rem",
             fontFamily: "Charm",
-            fontWeight: "600",
+            fontWeight: "700",
             textAlign: "center"
           },
         }}

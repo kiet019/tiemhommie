@@ -1,0 +1,43 @@
+import styled from '@emotion/styled'
+import { InputAdornment, TextField } from '@mui/material'
+import React, { forwardRef } from 'react'
+
+const StyledOutLinedInput = styled(TextField)({
+    marginBottom: "0.5rem",
+    "& .MuiInputBase-root": {
+        backgroundColor: "white",
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+        border: "1px solid gray",
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+        border: "2px solid #FF9B9B !important",
+    },
+})
+const StyledOutlinedInput = forwardRef(({ label, id, icon, ...props }: any, ref) => {
+    return (
+        <>
+            <label htmlFor={id} style={{
+                margin: "0.5rem 0rem",
+                color: "gray",
+                fontSize: "0.9rem",
+                fontWeight: "600"
+            }}>{label}</label>
+            <StyledOutLinedInput
+                ref={ref}
+                fullWidth
+                size='small'
+                className={id}
+                {...props}
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            {icon}
+                        </InputAdornment>
+                    )
+                }}
+            />
+        </>
+    )
+})
+export default StyledOutlinedInput

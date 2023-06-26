@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 
 const StyledTab = styled(Tab)({
   fontWeight: 1000,
+  color: "black"
 });
 export default function ProductInformation() {
   const [value, setValue] = React.useState("1");
@@ -17,15 +18,15 @@ export default function ProductInformation() {
   };
 
   return (
-      <TabContext value={value}>
-        <Box marginTop={5}>
-          <TabList onChange={handleChange}>
-            <StyledTab label="Chi tiết" value="1" />
-            <StyledTab label="Đánh giá" value="2" />
-          </TabList>
-        </Box>
-        <TabPanel value="1">Item One</TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
-      </TabContext>
+    <TabContext value={value}>
+      <Box marginTop={5}>
+        <TabList onChange={handleChange}>
+          <StyledTab label="Chi tiết" value="1" />
+          <StyledTab label="Đánh giá" value="2" />
+        </TabList>
+      </Box>
+      <TabPanel value="1">Item One</TabPanel>
+      <TabPanel value="2">Item Two</TabPanel>
+    </TabContext>
   );
 }

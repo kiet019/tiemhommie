@@ -1,9 +1,6 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { setup } from "@/config/setup";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -74,7 +71,7 @@ export default function ProductCard({ product }: any) {
       />
       <div
         style={{
-          padding: "1rem 0rem 0.5rem 1rem",
+          padding: "1rem 1rem 0.5rem 1rem",
         }}
       >
         <Typography
@@ -83,7 +80,6 @@ export default function ProductCard({ product }: any) {
           sx={{
             overflow: "hidden",
             fontWeight: "600",
-            paddingRight: "1rem",
             fontSize: "1.1rem",
           }}
         >
@@ -111,13 +107,13 @@ export default function ProductCard({ product }: any) {
           >
             {formatNumber(product.price)} VND
           </Typography>
-          <LoadingIconButton
-            loading={loading}
-            size="large"
-            onClick={handleAddtoCart}
-          >
-            <AddShoppingCartIcon />
-          </LoadingIconButton>
+            <LoadingIconButton
+              loading={loading}
+              size="large"
+              onClick={handleAddtoCart}
+            >
+              <AddShoppingCartIcon />
+            </LoadingIconButton>
         </CardActions>
       </div>
     </Card>

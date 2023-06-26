@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { NextSeo } from "next-seo";
 import Loading from "@/component/theme/loading/Loading";
 import { CssBaseline } from "@mui/material";
+import AuthProvider from "@/component/auth/AuthContext";
 
 function MyApp({ Component, pageProps }: any) {
   return (
@@ -23,11 +24,13 @@ function MyApp({ Component, pageProps }: any) {
         }}
       />
       <ThemeProvider theme={theme}>
+        <AuthProvider>
         <CssBaseline />
         <Loading />
         <div style={{ backgroundColor: "#F6F9FC" }}>
           <Component {...pageProps} />
         </div>
+        </AuthProvider>
       </ThemeProvider>
     </Provider>
   );

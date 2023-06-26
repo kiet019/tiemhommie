@@ -29,7 +29,7 @@ export default function DetailsCard({ product }: {product: Product}) {
       <Paper
         sx={{
           padding: {
-            lg: "3rem",
+            lg: "3rem 6rem",
             sm: "0rem",
           },
         }}

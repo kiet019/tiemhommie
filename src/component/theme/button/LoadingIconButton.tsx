@@ -7,22 +7,25 @@ const LoadingButton = dynamic(() => import("@mui/lab/LoadingButton"), {
 
 const LoadingIconButton = ({ children, loading, ...props }: any) => {
   return (
-    <LoadingButton
-      loading={loading}
-      sx={{
-        visibility: loading === true ? "visible" : "hidden",
-        padding: "0rem",
-      }}
-    >
+    <div>
       <IconButton
         {...props}
         sx={{
-          visibility: loading === true ? "hidden" : "visible",
+          display: loading === true ? "none" : null,
         }}
       >
         {children}
       </IconButton>
-    </LoadingButton>
+      <LoadingButton
+        loading={loading}
+        sx={{
+          height: "48px",
+          display: loading === true ? null : "none",
+        }}
+      >
+        ""
+      </LoadingButton>
+      </div>
   );
 };
 

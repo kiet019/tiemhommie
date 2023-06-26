@@ -2,9 +2,12 @@ import React, { useContext, useState } from "react";
 import { setup } from "@/config/setup";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { setOpen } from "@/feature/Alert";
-import { Typography } from "@mui/material";
 import { useAppDispatch } from "@/feature/Hooks";
 import StyledLoadingButton from "@/component/theme/button/StyledLoadingButton";
+import { StyledTypography } from "@/component/theme/text/Typography";
+const formatNumber = (number: number) => {
+  return number.toLocaleString("en-US");
+};
 export default function ProductDetail({ product }: any) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
@@ -29,7 +32,7 @@ export default function ProductDetail({ product }: any) {
     //         open: true,
     //         message: "Adding success",
     //         severity: "success",
-    //       })
+    //       })1
     //     );
     //   } else {
     //     dispatch(
@@ -42,36 +45,39 @@ export default function ProductDetail({ product }: any) {
     //   }
     // }
   };
+
+
   return (
     <>
-      <Typography
-        variant="h4"
-        sx={
+      <StyledTypography
+        style={
           {
-            // fontWeight: "500"
+            fontSize: "2rem",
           }
         }
       >
         {product.productName}
-      </Typography>
+      </StyledTypography>
       <div
         style={{
           margin: "1rem 0rem",
         }}
       >
-        <Typography variant="h6">Giá sản phẩm: {product.price} VND </Typography>
-        <Typography
+        <StyledTypography variant="h6" sx={{
+          color: "#e10404",
+        }}>{formatNumber(product.price)} VND </StyledTypography>
+        <StyledTypography
           variant="h6"
           sx={{
             color: product.quantity > 0 ? setup.success : setup.error,
           }}
         >
           Số lượng: {product.quantity}
-        </Typography>
+        </StyledTypography>
       </div>
-      <Typography variant="body1">Tình trạng: {product.status}</Typography>
-      <Typography variant="body1">Thông tin: </Typography>
-      <Typography variant="body1">{product.description}</Typography>
+      <StyledTypography variant="body1" >Tình trạng: {product.status}</StyledTypography>
+      <StyledTypography variant="body1" >Thông tin: </StyledTypography>
+      <StyledTypography variant="body1" >{product.description}</StyledTypography>
       <div
         style={{
           marginTop: "2rem",
@@ -91,7 +97,6 @@ export default function ProductDetail({ product }: any) {
                   ? `${setup.success} !important`
                   : setup.error,
             },
-            fontSize: "0.9rem",
             backgroundColor: product.quantity > 0 ? setup.success : setup.error,
             color: "white",
           }}

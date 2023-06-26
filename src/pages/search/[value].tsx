@@ -7,7 +7,7 @@ import ProductListSkeleton from "@/component/product/ProductListSkeleton";
 import { UseSearchProductName } from "../../../package/function/product/use-search-name";
 import ProductList2 from "@/component/product/ProductList2";
 import { Product } from "../../../package/model/product";
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {

@@ -14,7 +14,9 @@ export async function getServerSideProps({
 }: GetServerSidePropsContext) {
   const name = params?.name;
   if (name !== undefined && !Array.isArray(name)) {
-    const response : ResponseBody<Product[]>= await UseGetProductName(name);
+    const response : ResponseBody<Product[]>= await UseGetProductName({
+      productName: name
+    });
     const product = response.data;
     return {
       props: {

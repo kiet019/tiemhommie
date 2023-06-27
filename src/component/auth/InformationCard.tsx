@@ -24,7 +24,6 @@ export default function InformationCard() {
   const [address, setAddress] = useState<any>("");
   const router = useRouter()
   const onSubmit = async (fields: any) => {
-    console.log(`${fields.address}, ${address}`, fields.userName, fields.phone, auth.currentUser?.uid);
     try {
       setIsLoading(true)
       const data : ResponseBody<User> = await UseRegister({

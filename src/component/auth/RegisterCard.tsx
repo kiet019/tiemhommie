@@ -70,6 +70,7 @@ export default function RegisterCard() {
       <Typography sx={{
         fontWeight: "500",
         textAlign: "center",
+        fontSize: "0.9rem"
       }}>
         Đã có tài khoản?{"  "}
         <StyledLink
@@ -100,16 +101,18 @@ export default function RegisterCard() {
           <GoogleIcon style={{ fontSize: "1.5rem", marginRight: "1rem" }} />
           Đăng nhập bằng google
         </StyledButton>
-        <FlexBox>
-          <StyledLink
-            style={{
-              color: "black",
-            }}
-            href="/"
-          >
-            Quay về
-          </StyledLink>
-        </FlexBox>
+        <StyledLink
+          style={{
+            fontSize: "0.9rem",
+            color: "#1818ad",
+            textDecoration: "underline",
+            fontWeight: "600",
+            textAlign: "center"
+          }}
+          href="/"
+        >
+          Trang chủ
+        </StyledLink>
       </div>
     </form>
   );

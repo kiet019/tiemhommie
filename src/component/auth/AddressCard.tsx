@@ -20,7 +20,6 @@ export default function Address({ setAddress }: any) {
             const districts = await response.json()
             setDistrictOption(districts.data.data)
         }
-        console.log(cityOption)
         cityOption === null ? getCityOption() : null;
         city !== null ? getDistrictOption(city.code) : null;
 
@@ -75,7 +74,6 @@ export default function Address({ setAddress }: any) {
                             value={district}
                             size="small"
                             onChange={(event) => {
-                                console.log(event.target)
                                 setDistrict(event.target.value)
                             }}
                         >

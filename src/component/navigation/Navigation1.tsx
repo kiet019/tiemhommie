@@ -1,5 +1,5 @@
-import { AppBar, Box, Container, Grid } from "@mui/material";
-import React, { useState } from "react";
+import { AppBar, Box, Container, Grid, Tooltip } from "@mui/material";
+import React, { useContext, useState } from "react";
 import LogoTitle from "../theme/title/LogoTitle";
 import NavButton from "../theme/button/NavButton";
 import SearchBox from "../theme/search/SearchBox";
@@ -7,9 +7,11 @@ import { categoryList, setup } from "@/config/setup";
 import CartIconButton from "../theme/button/CartIconButton";
 import AccountIconButton from "../theme/button/AccountIconButton";
 import { CheckInView } from "@/checkInScreen";
+import { UserContext } from "../auth/AuthContext";
 
 const Navigation1 = () => {
   const [isVisible, setIsVisible] = useState<any>(true);
+  const { user } = useContext(UserContext) 
   return (
       <CheckInView setIsVisible={setIsVisible}>
         <AppBar
@@ -38,7 +40,9 @@ const Navigation1 = () => {
                   justifyContent: "flex-end",
                 }}
               >
-                <AccountIconButton />
+                <Tooltip title={user !== null ? `Login as ${user.userName}` : ""}>
+                  <AccountIconButton href={user !== null ? "/profile" : "/login"}/>
+                </Tooltip>
                 <CartIconButton url="/cart" />
               </div>
             </div>

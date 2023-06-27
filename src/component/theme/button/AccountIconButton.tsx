@@ -4,11 +4,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import React from "react";
 import StyledLink from "../navLink/Link";
 
-const AccountIconButton = ({ ...props }: any) => {
+const AccountIconButton = React.forwardRef(({ href, ...props } : any, ref) => {
   return (
-    <StyledLink href="/login">
+    <StyledLink href={href !== undefined ? href : "/login"}>
       <IconButton
         {...props}
+        ref={ref}
         size="large"
         sx={{
           margin: "0 1rem",
@@ -20,6 +21,6 @@ const AccountIconButton = ({ ...props }: any) => {
       </IconButton>
     </StyledLink>
   );
-};
+});
 
 export default AccountIconButton;

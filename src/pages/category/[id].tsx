@@ -14,7 +14,9 @@ export async function getServerSideProps({
 }: GetServerSidePropsContext) {
   const id = params?.id;
   if (id !== undefined && !Array.isArray(id)) {
-    const response : ResponseBody<Product[]> = await UseGetProductCategory(Number.parseInt(id, 10));
+    const response : ResponseBody<Product[]> = await UseGetProductCategory({
+      categoryId: Number.parseInt(id, 10)
+    });
     const category = categoryList.find(
       (item) => Number.parseInt(id) === item.categoryId
     );

@@ -3,11 +3,9 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { UserContext } from "./AuthContext";
 import { useForm } from "react-hook-form";
 import StyledLink from "../theme/navLink/Link";
-import { StyledButton } from "../theme/button/StyledButton";
 import StyledOutlinedInput from "../theme/input/StyledInput";
 import StyledLoadingButton from "../theme/button/StyledLoadingButton";
 import LineText from "../theme/text/LineText";
-import FlexBox from "../theme/flexbox/FlexBox";
 import { UseLogin } from "../../../package/function/auth/use-login";
 import { auth } from "@/config/firebase";
 import { useAppDispatch } from "@/feature/Hooks";
@@ -15,6 +13,8 @@ import { setOpen } from "@/feature/Alert";
 import { setup } from "@/config/setup";
 import { useRouter } from "next/router";
 import { Typography } from "@mui/material";
+import { UseLoginGoogle } from "../../../package/function/auth/use-login-google";
+import { ggProvider } from './../../config/firebase';
 
 export default function LoginCard() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -41,7 +41,7 @@ export default function LoginCard() {
       }))
       setUser(data.data)
       router.push("/")
-    } catch (error : any) {
+    } catch (error: any) {
       dispatch(setOpen({
         message: error.message,
         open: true,
@@ -51,6 +51,32 @@ export default function LoginCard() {
       setIsLoading(false);
     }
   };
+
+  const handleLoginGoogle = async () => {
+    try {
+      setIsLoading(true)
+      const data = await UseLoginGoogle({ auth, provider: ggProvider })
+      if (data.data === null) {
+        router.push("/information")
+      } else {
+        dispatch(setOpen({
+          message: data.message,
+          open: true,
+          severity: data.status
+        }))
+        setUser(data.data)
+        router.push("/")
+      }
+    } catch (error: any) {
+      dispatch(setOpen({
+        message: error.message,
+        open: true,
+        severity: "error"
+      }))
+    } finally {
+      setIsLoading(false);
+    }
+  }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <StyledOutlinedInput
@@ -88,6 +114,7 @@ export default function LoginCard() {
       <Typography sx={{
         fontWeight: "500",
         textAlign: "center",
+        fontSize: "0.9rem"
       }}>
         Chưa có tài khoản?{"  "}
         <StyledLink
@@ -108,26 +135,28 @@ export default function LoginCard() {
           marginTop: "1rem",
         }}
       >
-        <StyledButton
+        <StyledLoadingButton
+          loading={isLoading}
           variant="contained"
           style={{ backgroundColor: "rgb(220 137 3)" }}
           fullWidth
-          onClick={() => {
-          }}
+          onClick={handleLoginGoogle}
         >
           <GoogleIcon sx={{ fontSize: "1.5rem", marginRight: "1rem" }} />
           Đăng nhập bằng google
-        </StyledButton>
-        <FlexBox>
-          <StyledLink
-            style={{
-              color: "black",
-            }}
-            href="/"
-          >
-            Quay về
-          </StyledLink>
-        </FlexBox>
+        </StyledLoadingButton>
+        <StyledLink
+          style={{
+            fontSize: "0.9rem",
+            color: "#1818ad",
+            textDecoration: "underline",
+            fontWeight: "600",
+            textAlign: "center"
+          }}
+          href="/"
+        >
+          Trang chủ
+        </StyledLink>
       </div>
     </form>
   );

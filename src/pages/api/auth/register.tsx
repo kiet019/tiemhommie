@@ -36,7 +36,6 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
             });
         }
     } catch (error: any) {
-        console.log(error)
         res.status(400).json({
             data: null,
             message: error.message,

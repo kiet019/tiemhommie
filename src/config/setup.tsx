@@ -28,10 +28,6 @@ export const categoryList = [
   },
 ];
 export const productStatus = [{ name: "Bán chạy" }, { name: "Hàng mới" }];
-export const block = (inputString: any) => {
-  const sanitizedString = inputString.replace(/[^\wÀ-ÿ]/g, "");
-  return sanitizedString === inputString ? inputString : "";
-};
 export const suggest = [
    "LEGO Hoa Hồng ",
    "LEGO Hoa Hướng Dương",

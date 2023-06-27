@@ -19,7 +19,7 @@ export default function TopBanner({ children, slider }: any) {
         image={`/assets/images/${slider[index]}`}
         sx={{
           height: "45rem",
-          paddingTop: "10rem",
+          paddingTop: "9rem",
           backgroundColor: setup.backgroundColor
           // objectFit: "contain"
         }}

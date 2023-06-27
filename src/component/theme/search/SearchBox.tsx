@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { block, setup, suggest } from "../../../config/setup";
+import { suggest } from "../../../config/setup"; // Only import the necessary function
 import { useRouter } from "next/router";
 import { Autocomplete, TextField } from "@mui/material";
 
 export default function SearchBox() {
   const router = useRouter();
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState<string>("");
   const [suggestions, setSuggestions] = useState<any>([]);
 
   const handleSearchChange = (event: any) => {
@@ -21,13 +21,10 @@ export default function SearchBox() {
     });
     setSuggestions(newSuggestions);
   };
-  const handleSelectSuggestion = (event: any, value: any) => {
-    setSearchValue(value);
-  };
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    const checkedValue = block(searchValue)
-    router.push(`/search/${checkedValue}`);
+    router.push(`/search/${searchValue.replace(/[%&#/]/g, "")}`);
   };
 
   return (
@@ -47,13 +44,11 @@ export default function SearchBox() {
           transform: "translateY(-50%)",
         }}
       >
-        <SearchIcon
-          color="primary"
-        />
+        <SearchIcon color="primary" />
       </label>
       <Autocomplete
         freeSolo
-        onChange={handleSelectSuggestion}
+        onInputChange={handleSearchChange}
         options={suggestions}
         renderInput={(params) => (
           <TextField

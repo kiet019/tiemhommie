@@ -1,4 +1,4 @@
-import { CategoryAndProduct } from "../../model/category-and-product";
+import { CategoryAndProduct } from "../../model/category/category-and-product";
 import { FetcherProps, fetcher } from "../../fetcher";
 
 export const UseGetCategoryProduct = async () => {

@@ -1,5 +1,5 @@
 
-import { auth, ggProvider } from "@/config/firebase";
+import { auth } from "@/config/firebase";
 import {
   onAuthStateChanged,
 } from "firebase/auth";
@@ -7,8 +7,6 @@ import { useRouter } from "next/router";
 import { createContext, useEffect, useState } from "react";
 import { User } from "../../../package/model/user";
 import { useAppDispatch } from "@/feature/Hooks";
-import { UseLoginGoogle } from "../../../package/function/auth/use-login-google";
-import { fetcher } from "../../../package/fetcher";
 const userInit = {
   setUser: (user: User | null) => {},
   logout: () => {},

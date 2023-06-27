@@ -20,6 +20,7 @@ export const getStaticProps: GetStaticProps<any> = async ({ params }) => {
   return {
     props: {
       value: params?.value,
+      revalidate: 60
     },
   };
 };

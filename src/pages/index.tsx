@@ -3,7 +3,7 @@ import Layout1 from "@/component/theme/layout/Layout1";
 import TopBanner from "@/component/theme/banner/top-banner";
 import { UseGetCategoryProduct } from "../../package/function/category/use-get-product";
 import { ResponseBody } from "../../package/model/api";
-import { CategoryAndProduct } from "../../package/model/category-and-product";
+import { CategoryAndProduct } from "../../package/model/category/category-and-product";
 
 export async function getServerSideProps() {
   const response: ResponseBody<CategoryAndProduct> =

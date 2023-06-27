@@ -67,7 +67,8 @@ export default function AuthProvider({ children }: any) {
   };
 
   const handleChange = async (user: any) => {
-    console.log(user)
+    console.log(user),
+    console.log(currentUser)
   };
   const setUser = (user: User | null) => {
     setCurrentUser(user)

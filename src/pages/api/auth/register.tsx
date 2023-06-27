@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { UseLoginBody } from '../../../../package/model/api/auth/login';
 import { User } from '../../../../package/model/user';
+import { UseRegisterBody } from '../../../../package/model/api/auth/register';
 
 export default async function Api(req: NextApiRequest, res: NextApiResponse) {
     req.method == "POST" ? null : res.status(400).json({
@@ -9,20 +9,30 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
         message: "error",
     })
     try {
-        const params = req.body as UseLoginBody<string>
-        const response = await fetch(`http://localhost:8080/api/user/getUserByUserUid?userUid=${params.auth}`)
+        const params = req.body as UseRegisterBody<string>
+        const response = await fetch('http://localhost:8080/api/user/createUser', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+                email: params.email,
+                phoneNumber: params.phoneNumber,
+                address: params.address,
+                userName: params.userName,
+                userUid: params.auth,
+            })
+        })
         if (response.ok) {
             const data: User = await response.json()
             res.status(200).json({
                 data: data,
                 status: "success",
-                message: "Success, Login success",
+                message: "Success, Register success",
             });
         } else {
             res.status(200).json({
                 data: null,
                 status: "error",
-                message: "Error, Login fails",
+                message: "Error, Register fails",
             });
         }
     } catch (error: any) {

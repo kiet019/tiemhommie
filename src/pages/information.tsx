@@ -7,12 +7,13 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import Head from "next/head";
-import RegisterCard from "@/component/auth/RegisterCard";
-export default function Login() {
+import LoginCard from "@/component/auth/LoginCard";
+import InformationCard from "@/component/auth/InformationCard";
+export default function Information() {
   return (
     <div>
       <Head>
-        <title>Register</title>
+        <title>Information</title>
       </Head>
       <CardMedia
         component="img"
@@ -46,7 +47,7 @@ export default function Login() {
           {setup.name}
         </DialogTitle>
         <DialogContent>
-          <RegisterCard />
+          <InformationCard />
         </DialogContent>
       </Dialog>
     </div>

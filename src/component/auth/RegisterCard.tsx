@@ -1,7 +1,4 @@
-import { Typography } from "@mui/material";
-import React, { useContext, useState } from "react";
-import EmailIcon from "@mui/icons-material/Email";
-import LockPersonIcon from "@mui/icons-material/LockPerson";
+import React, { useState } from "react";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useForm } from "react-hook-form";
 import { UserContext } from "./AuthContext";
@@ -14,20 +11,28 @@ import StyledOutlinedInput from "../theme/input/StyledInput";
 import StyledLoadingButton from "../theme/button/StyledLoadingButton";
 import FlexBox from "../theme/flexbox/FlexBox";
 import { setup } from "@/config/setup";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/config/firebase";
+import { useRouter } from "next/router";
 export default function RegisterCard() {
   const { register, handleSubmit, formState: { errors }, } = useForm()
-  const [error, setError] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
-  const { registerFirebase, loginGoogle } = useContext(UserContext)
-  const onSubmit = async (data: any) => {
-    const error: any = registerFirebase(data.email, data.password)
-    error === undefined ? dispatch(
-      setOpen({
+  const router = useRouter()
+  const onSubmit = async (fields: any) => {
+    try {
+      setIsLoading(true)
+      await createUserWithEmailAndPassword(auth, fields.email, fields.password)
+      router.push("/information")
+    } catch (error : any) {
+      dispatch(setOpen({
+        message: error.message,
         open: true,
-        message: "Register success",
-        severity: "success",
-      })
-    ) : setError(error)
+        severity: "error"
+      }))
+    } finally {
+      setIsLoading(false)
+    }
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -39,7 +44,6 @@ export default function RegisterCard() {
         {...register("email", {
           required: true
         })}
-
       />
       <StyledOutlinedInput
         label="Password"
@@ -50,20 +54,18 @@ export default function RegisterCard() {
           required: true,
           minLength: 6
         })}
-
       />
       <StyledLoadingButton
-        loading={false}
+        loading={isLoading}
         type="submit"
         fullWidth
         variant="contained"
-        style={{
+        sx={{
           backgroundColor: setup.inside
         }}
       >
         Đăng kí
       </StyledLoadingButton>
-      {error !== null ? <Typography color="error">{error}</Typography> : null}
       <LineText text="Hoặc" />
       <div
         style={{
@@ -75,7 +77,6 @@ export default function RegisterCard() {
           style={{ backgroundColor: "rgb(220 137 3)" }}
           fullWidth
           onClick={() => {
-            loginGoogle();
           }}
         >
           <GoogleIcon style={{ fontSize: "1.5rem", marginRight: "1rem" }} />

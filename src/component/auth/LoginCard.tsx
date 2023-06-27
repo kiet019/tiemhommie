@@ -76,7 +76,7 @@ export default function LoginCard() {
       />
       <StyledLoadingButton
         loading={isLoading}
-        style={{
+        sx={{
           backgroundColor: setup.inside
         }}
         type="submit"

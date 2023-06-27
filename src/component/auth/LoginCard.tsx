@@ -14,6 +14,7 @@ import { useAppDispatch } from "@/feature/Hooks";
 import { setOpen } from "@/feature/Alert";
 import { setup } from "@/config/setup";
 import { useRouter } from "next/router";
+import { Typography } from "@mui/material";
 
 export default function LoginCard() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -25,7 +26,6 @@ export default function LoginCard() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { loginGoogle } = useContext(UserContext);
   const onSubmit = async (fields: any) => {
     try {
       setIsLoading(true);
@@ -85,7 +85,24 @@ export default function LoginCard() {
       >
         Đăng nhập
       </StyledLoadingButton>
-      <LineText text="Hoặc" />
+      <Typography sx={{
+        fontWeight: "500",
+        textAlign: "center",
+      }}>
+        Chưa có tài khoản?{"  "}
+        <StyledLink
+          style={{
+            color: "#1818ad",
+            textDecoration: "underline",
+            display: "inline",
+            fontWeight: "600"
+          }}
+          href="/register"
+        >
+          đăng kí
+        </StyledLink>
+      </Typography>
+      <LineText text="Or" />
       <div
         style={{
           marginTop: "1rem",
@@ -96,7 +113,6 @@ export default function LoginCard() {
           style={{ backgroundColor: "rgb(220 137 3)" }}
           fullWidth
           onClick={() => {
-            loginGoogle();
           }}
         >
           <GoogleIcon sx={{ fontSize: "1.5rem", marginRight: "1rem" }} />
@@ -110,14 +126,6 @@ export default function LoginCard() {
             href="/"
           >
             Quay về
-          </StyledLink>
-          <StyledLink
-            style={{
-              color: "black",
-            }}
-            href="/register"
-          >
-            Đăng kí
           </StyledLink>
         </FlexBox>
       </div>

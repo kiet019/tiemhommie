@@ -14,6 +14,7 @@ import { setup } from "@/config/setup";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/config/firebase";
 import { useRouter } from "next/router";
+import { Typography } from "@mui/material";
 export default function RegisterCard() {
   const { register, handleSubmit, formState: { errors }, } = useForm()
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -24,7 +25,7 @@ export default function RegisterCard() {
       setIsLoading(true)
       await createUserWithEmailAndPassword(auth, fields.email, fields.password)
       router.push("/information")
-    } catch (error : any) {
+    } catch (error: any) {
       dispatch(setOpen({
         message: error.message,
         open: true,
@@ -66,7 +67,24 @@ export default function RegisterCard() {
       >
         Đăng kí
       </StyledLoadingButton>
-      <LineText text="Hoặc" />
+      <Typography sx={{
+        fontWeight: "500",
+        textAlign: "center",
+      }}>
+        Đã có tài khoản?{"  "}
+        <StyledLink
+          style={{
+            color: "#1818ad",
+            textDecoration: "underline",
+            display: "inline",
+            fontWeight: "600"
+          }}
+          href="/login"
+        >
+          đăng nhập
+        </StyledLink>
+      </Typography>
+      <LineText text="Or" />
       <div
         style={{
           marginTop: "1rem",
@@ -90,14 +108,6 @@ export default function RegisterCard() {
             href="/"
           >
             Quay về
-          </StyledLink>
-          <StyledLink
-            style={{
-              color: "black",
-            }}
-            href="/login"
-          >
-            Đăng nhập
           </StyledLink>
         </FlexBox>
       </div>

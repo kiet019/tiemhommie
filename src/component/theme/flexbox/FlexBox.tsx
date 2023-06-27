@@ -1,8 +1,8 @@
-const FlexBox = ({ children }: any) => {
+const FlexBox = ({ children, justifyContent }: any) => {
     return (
         <div
             style={{
-                justifyContent: "space-between",
+                justifyContent: justifyContent !== undefined ? justifyContent : "space-between",
                 display: "flex",
                 alignItems: "center",
             }}

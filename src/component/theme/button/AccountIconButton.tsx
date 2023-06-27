@@ -22,5 +22,5 @@ const AccountIconButton = React.forwardRef(({ href, ...props } : any, ref) => {
     </StyledLink>
   );
 });
-
+AccountIconButton.displayName = "AccountIconButton";
 export default AccountIconButton;

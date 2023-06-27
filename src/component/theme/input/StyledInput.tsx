@@ -5,7 +5,7 @@ import React, { forwardRef } from "react";
 const StyledOutLinedInput = styled(TextField)({
   marginBottom: "0.5rem",
   "& .MuiInputBase-input": {
-    padding: "0.9rem",
+    // padding: "0.9rem",
     backgroundColor: "white"
   },
   "& .MuiOutlinedInput-notchedOutline": {
@@ -31,6 +31,7 @@ const StyledOutlinedInput = forwardRef(
           {label}
         </label>
         <StyledOutLinedInput
+        size="small"
           ref={ref}
           fullWidth
           className={id}

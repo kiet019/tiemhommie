@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { UseLoginBody } from '../../../../package/model/api/auth/login';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { FetcherProps, fetcher } from '../../../../package/fetcher';
 import { User } from '../../../../package/model/user';
 
 export default async function Api(req: NextApiRequest, res: NextApiResponse) {

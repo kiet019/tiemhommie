@@ -25,12 +25,11 @@ export default function Login() {
         }}
       />
       <Dialog open={true} fullWidth sx={{
-        maxWidth: "40rem",
+        maxWidth: "35rem",
         margin: "auto",
         "& .MuiPaper-root": {
           borderRadius: "1rem",
-          padding: " 1rem 2.5rem",
-          backgroundColor: setup.backgroundColor
+          padding: " 1rem 2rem",
         }
       }}>
         <DialogTitle

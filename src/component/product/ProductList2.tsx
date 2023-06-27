@@ -49,11 +49,11 @@ export default function ProductList2({ productList, row, col }: Props) {
           },
           // "& .MuiButtonBase-root-MuiPaginationItem-root": {
           "& .Mui-selected": {
-            backgroundColor: `${setup.navigationColor} !important`,
+            backgroundColor: `${setup.border} !important`,
           },
           // },
           "& .MuiButtonBase-root:hover": {
-            background: setup.navigationColor,
+            background: setup.border,
           },
         }}
         shape="rounded"

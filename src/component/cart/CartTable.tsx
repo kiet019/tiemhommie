@@ -21,8 +21,7 @@ export default function CartTable({
   handleDelete,
   setOrderList,
   orderList,
-  setCartItemDelete,
-  updateCartItemsQuantity
+  updateCartItemsQuantity,
 }: any) {
   return (
     <TableContainer component={Paper}>
@@ -46,7 +45,7 @@ export default function CartTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {cart.productAndCartItemList.map((row: any, key: any) => (
+          { cart.productAndCartItemList.map((row: any, key: any) => (
             <TableRow key={key}>
               <TableCell component="th" scope="row">
                 <div
@@ -120,8 +119,7 @@ export default function CartTable({
                   color="error"
                   variant="contained"
                   onClick={() => {
-                    handleDelete();
-                    setCartItemDelete(row.cartItemId);
+                    handleDelete(row.cartItemId);
                   }}
                   sx={{
                     margin: "1rem",

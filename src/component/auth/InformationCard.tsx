@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAppDispatch } from "@/feature/Hooks";
 import StyledLink from "../theme/navLink/Link";
@@ -6,23 +6,28 @@ import StyledOutlinedInput from "../theme/input/StyledInput";
 import StyledLoadingButton from "../theme/button/StyledLoadingButton";
 import FlexBox from "../theme/flexbox/FlexBox";
 import { setup } from "@/config/setup";
-import AddressCard from "./AddressCard";
+import AddressCard from "./Address";
 import { auth } from "@/config/firebase";
 import { ResponseBody } from "../../../package/model/api";
 import { User } from "../../../package/model/user";
 import { UseRegister } from "../../../package/function/auth/use-register";
 import { setOpen } from "@/feature/Alert";
-import { UserContext } from "./AuthContext";
 import { useRouter } from "next/router";
+import { signOut } from "firebase/auth";
 
 
 export default function InformationCard() {
   const { register, handleSubmit, formState: { errors }, } = useForm()
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const { setUser } = useContext(UserContext)
   const dispatch = useAppDispatch()
   const [address, setAddress] = useState<any>("");
   const router = useRouter()
+  useEffect(() => {
+    return () => {
+        signOut(auth)
+    };
+  }, []);
+
   const onSubmit = async (fields: any) => {
     try {
       setIsLoading(true)
@@ -38,8 +43,7 @@ export default function InformationCard() {
         message: data.message,
         severity: data.status
       }))
-      setUser(data.data)
-      router.push("/")
+      data.data? router.push("/") : null
     } catch (error : any) {
       dispatch(setOpen({
         open: true,

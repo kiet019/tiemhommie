@@ -1,27 +1,27 @@
+import { Auth, signInWithEmailAndPassword, signInWithPopup, User } from "firebase/auth";
 import { FetcherProps, fetcher } from "../../fetcher";
 import { ResponseBody } from "../../model/api";
-import { User } from "../../model/user";
-import { useLoginGoogleBody } from "../../model/api/auth/loginGoogle";
-import { Auth, signInWithPopup } from "firebase/auth";
+import { UseLoginBody } from "../../model/api/auth/login";
+import { UseLoginGoogleBody } from "../../model/api/auth/loginGoogle";
 
-export const UseLoginGoogle = async ({auth, provider} : useLoginGoogleBody<Auth>) => {
-    const response = await signInWithPopup(auth, provider)
-    const url = `/api/auth/login`;
-    const props: FetcherProps = {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json"
-        },
-        body: {
-            auth: response.user.uid,
-            provider
-        },
-        options: {
-            next: {
-                revalidate: 60,
-            }
-        },
-    };
-    const data : ResponseBody<User> = await fetcher(url, props)
-    return data
+export const UseLoginGoogle = async ({ auth, provider }: UseLoginGoogleBody<Auth>) => {
+        const response = await signInWithPopup(auth, provider)
+        const url = `/api/auth/login`;
+        const props: FetcherProps = {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: {
+                userUid: response.user.uid
+            },
+            options: {
+                next: {
+                    revalidate: 60,
+                }
+            },
+        };
+        const data: ResponseBody<User> = await fetcher(url, props)
+        return data
+    
 };

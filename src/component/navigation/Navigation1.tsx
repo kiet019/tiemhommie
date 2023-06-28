@@ -1,4 +1,4 @@
-import { AppBar, Box, Container, Grid, Tooltip } from "@mui/material";
+import { AppBar,  Box, Button, Container, Grid, Tooltip } from "@mui/material";
 import React, { useContext, useState } from "react";
 import LogoTitle from "../theme/title/LogoTitle";
 import NavButton from "../theme/button/NavButton";
@@ -7,62 +7,70 @@ import { categoryList, setup } from "@/config/setup";
 import CartIconButton from "../theme/button/CartIconButton";
 import AccountIconButton from "../theme/button/AccountIconButton";
 import { CheckInView } from "@/checkInScreen";
+import { auth } from "@/config/firebase";
+import { signOut } from "firebase/auth";
+import { useRouter } from "next/router";
 import { UserContext } from "../auth/AuthContext";
 
 const Navigation1 = () => {
   const [isVisible, setIsVisible] = useState<any>(true);
-  const { user } = useContext(UserContext) 
+  const { cart } = useContext(UserContext)
+  const router = useRouter()
   return (
-      <CheckInView setIsVisible={setIsVisible}>
-        <AppBar
-          sx={{
-            backgroundColor: setup.backgroundColor,
-            paddingBottom: "0.6rem",
-            boxShadow: isVisible? "none" : null
-          }}
-        >
-          <Container maxWidth="lg">
+    <CheckInView setIsVisible={setIsVisible}>
+      <AppBar
+        sx={{
+          backgroundColor: setup.backgroundColor,
+          paddingBottom: "0.6rem",
+          boxShadow: isVisible ? "none" : null
+        }}
+      >
+        <Container maxWidth="lg">
+          <div
+            style={{
+              display: "grid",
+              marginTop: "0.5rem",
+              alignItems: "center",
+              gridTemplateColumns: "25% 55% 20%",
+            }}
+          >
+            <LogoTitle />
+            <Box flexGrow={1}>
+              <SearchBox />
+            </Box>
             <div
               style={{
-                display: "grid",
-                marginTop: "0.5rem",
-                alignItems: "center",
-                gridTemplateColumns: "25% 55% 20%",
+                display: "flex",
+                justifyContent: "flex-end",
               }}
             >
-              <LogoTitle />
-              <Box flexGrow={1}>
-                <SearchBox />
-              </Box>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <Tooltip title={user !== null ? `Login as ${user.userName}` : ""}>
-                  <AccountIconButton href={user !== null ? "/profile" : "/login"}/>
-                </Tooltip>
-                <CartIconButton url="/cart" />
-              </div>
+              <Tooltip title={auth.currentUser !== null ? `Login as ${auth.currentUser?.email}` : ""}>
+                <AccountIconButton href={auth.currentUser !== null ? "/profile" : "/login"} />
+              </Tooltip>
+              <CartIconButton number={cart !== null ? cart.productAndCartItemList.length : 0} url={auth.currentUser !== null ? "/cart" : "/"} />
+              <Button onClick={() => {
+                signOut(auth)
+                router.replace("/")
+              }}>Logout</Button>
             </div>
-            <div
-              style={{
-                marginTop: "1rem",
-              }}
-            >
-              <Grid container spacing={0}>
-                <Grid item xs={2.5}>
-                  <NavButton
-                    categoryList={categoryList}
-                    isVisible={isVisible}
-                  />
-                </Grid>
+          </div>
+          <div
+            style={{
+              marginTop: "1rem",
+            }}
+          >
+            <Grid container spacing={0}>
+              <Grid item xs={2.5}>
+                <NavButton
+                  categoryList={categoryList}
+                  isVisible={isVisible}
+                />
               </Grid>
-            </div>
-          </Container>
-        </AppBar>
-      </CheckInView>
+            </Grid>
+          </div>
+        </Container>
+      </AppBar>
+    </CheckInView>
   );
 };
 

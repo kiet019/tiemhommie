@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import StyledLink from "../navLink/Link";
 import { setup } from "@/config/setup";
-export default function CartIconButton({ url, ...props }: any) {
+export default function CartIconButton({ url, number, ...props }: any) {
   return (
     <StyledLink href={url}>
       <IconButton
@@ -15,9 +15,9 @@ export default function CartIconButton({ url, ...props }: any) {
           backgroundColor: setup.border
         }}
       >
-        <Badge color="error">
+        {/* <Badge color="error" badgeContent={number}> */}
           <LocalGroceryStoreIcon />
-        </Badge>
+        {/* </Badge> */}
       </IconButton>
     </StyledLink>
   );

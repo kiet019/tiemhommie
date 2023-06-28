@@ -13,14 +13,14 @@ import { setOpen } from "@/feature/Alert";
 import { setup } from "@/config/setup";
 import { useRouter } from "next/router";
 import { Typography } from "@mui/material";
-import { UseLoginGoogle } from "../../../package/function/auth/use-login-google";
 import { ggProvider } from './../../config/firebase';
+import { UseLoginGoogle } from "../../../package/function/auth/use-login-google";
+import SocialButton from "./SocialButton";
 
 export default function LoginCard() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const { setUser } = useContext(UserContext)
   const {
     register,
     handleSubmit,
@@ -32,15 +32,14 @@ export default function LoginCard() {
       const data = await UseLogin({
         email: fields.email,
         password: fields.password,
-        auth: auth,
+        auth: auth
       });
       dispatch(setOpen({
         message: data.message,
         open: true,
-        severity: "success"
+        severity: data.status
       }))
-      setUser(data.data)
-      router.push("/")
+      data.data !== null ? router.push("/") : router.push("/information")
     } catch (error: any) {
       dispatch(setOpen({
         message: error.message,
@@ -64,7 +63,6 @@ export default function LoginCard() {
           open: true,
           severity: data.status
         }))
-        setUser(data.data)
         router.push("/")
       }
     } catch (error: any) {
@@ -135,16 +133,7 @@ export default function LoginCard() {
           marginTop: "1rem",
         }}
       >
-        <StyledLoadingButton
-          loading={isLoading}
-          variant="contained"
-          style={{ backgroundColor: "rgb(220 137 3)" }}
-          fullWidth
-          onClick={handleLoginGoogle}
-        >
-          <GoogleIcon sx={{ fontSize: "1.5rem", marginRight: "1rem" }} />
-          Đăng nhập bằng google
-        </StyledLoadingButton>
+        <SocialButton handleLoginGoogle={handleLoginGoogle} isLoading={isLoading}/>
         <StyledLink
           style={{
             fontSize: "0.9rem",

@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Product } from "../../../../package/model/product";
-import { UseGetCartUserUidBody } from "../../../../package/model/api/cart/get-user";
 import { CartAndCartItemAndProduct } from "../../../../package/model/cart/cart-and-cartItem-and-product";
-import { AddCartItemBody } from "../../../../package/model/api/cart/add";
+import { UseAddCartItemBody } from "../../../../package/model/api/cart/add-cartItem";
+import { ResponseBody } from "../../../../package/model/api";
+import { UseUpdateCartItemQuantity } from "../../../../package/model/api/cart/update-cartItem";
 
 export default async function Api(req: NextApiRequest, res: NextApiResponse) {
   req.method == "POST"
@@ -13,38 +13,28 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
         message: "error",
       });
   try {
-    const params = req.body as unknown as AddCartItemBody;
+    const params = req.body as unknown as UseUpdateCartItemQuantity;
     const response = await fetch(
-      `http://localhost:8080/api/cartItem/createCartItems`,
+        `http://localhost:8080/api/cartItem/updateCartItems`,
       {
         method: "POST",
         headers: {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          cartId: params.cartId,
-          cartItemId: 0,
-          productId: params.productId,
-          quantity: 1,
+          cartId: 0,
+          cartItemId: params.cartItemId,
+          productId: 0,
+          quantity: params.quantity,
         }),
       }
     );
     if (response.status === 200) {
-      const response = await fetch(`/api/cart?userUid=${params.userUid}`);
-      if (response.status === 200) {
-        const data: CartAndCartItemAndProduct = await response.json();
         res.status(200).json({
-          data: data,
+          data: null,
           status: "success",
-          message: "success",
+          message: "Success, Update success",
         });
-      } else {
-        res.status(200).json({
-          data: [],
-          status: "error",
-          message: "Not found",
-        });
-      }
     } else {
         res.status(200).json({
             data: null,

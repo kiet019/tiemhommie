@@ -12,18 +12,50 @@ import StyledLoadingButton from "../theme/button/StyledLoadingButton";
 import FlexBox from "../theme/flexbox/FlexBox";
 import { setup } from "@/config/setup";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/config/firebase";
+import { auth, ggProvider } from "@/config/firebase";
 import { useRouter } from "next/router";
 import { Typography } from "@mui/material";
+import { UseLoginGoogle } from "../../../package/function/auth/use-login-google";
+import SocialButton from "./SocialButton";
 export default function RegisterCard() {
   const { register, handleSubmit, formState: { errors }, } = useForm()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const handleLoginGoogle = async () => {
+    try {
+      setIsLoading(true)
+      const data = await UseLoginGoogle({ auth, provider: ggProvider })
+      if (data.data === null) {
+        router.push("/information")
+      } else {
+        dispatch(setOpen({
+          message: data.message,
+          open: true,
+          severity: data.status
+        }))
+        router.push("/")
+      }
+    } catch (error: any) {
+      dispatch(setOpen({
+        message: error.message,
+        open: true,
+        severity: "error"
+      }))
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   const onSubmit = async (fields: any) => {
     try {
       setIsLoading(true)
       await createUserWithEmailAndPassword(auth, fields.email, fields.password)
+      dispatch(setOpen({
+        message: "Success, Create success",
+        open: true,
+        severity: "success"
+      }))
       router.push("/information")
     } catch (error: any) {
       dispatch(setOpen({
@@ -91,16 +123,7 @@ export default function RegisterCard() {
           marginTop: "1rem",
         }}
       >
-        <StyledButton
-          variant="contained"
-          style={{ backgroundColor: "rgb(220 137 3)" }}
-          fullWidth
-          onClick={() => {
-          }}
-        >
-          <GoogleIcon style={{ fontSize: "1.5rem", marginRight: "1rem" }} />
-          Đăng nhập bằng google
-        </StyledButton>
+        <SocialButton handleLoginGoogle={handleLoginGoogle} isLoading={isLoading}/>
         <StyledLink
           style={{
             fontSize: "0.9rem",

@@ -5,45 +5,59 @@ import { setOpen } from "@/feature/Alert";
 import { useAppDispatch } from "@/feature/Hooks";
 import StyledLoadingButton from "@/component/theme/button/StyledLoadingButton";
 import { StyledTypography } from "@/component/theme/text/Typography";
+import { UserContext } from "@/component/auth/AuthContext";
+import { auth } from "@/config/firebase";
+import { UseAddToCart } from "../../../../package/function/cart/use-add-cartItem";
+import { ResponseBody } from "../../../../package/model/api";
+import { CartAndCartItemAndProduct } from "../../../../package/model/cart/cart-and-cartItem-and-product";
 const formatNumber = (number: number) => {
   return number.toLocaleString("en-US");
 };
 export default function ProductDetail({ product }: any) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const { cart } = React.useContext(UserContext)
   const dispatch = useAppDispatch();
   const handleAddtoCart = async () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-    // if (user === null ) {
-    //   dispatch(
-    //     setOpen({
-    //       open: true,
-    //       message: "You must login to buy",
-    //       severity: "error",
-    //     })
-    //   );
-    // } else {
-    //   const response = await addToCartApi(cart.cart.cartId, product.productId);
-    //   if (response) {
-    //     dispatch(
-    //       setOpen({
-    //         open: true,
-    //         message: "Adding success",
-    //         severity: "success",
-    //       })1
-    //     );
-    //   } else {
-    //     dispatch(
-    //       setOpen({
-    //         open: true,
-    //         message: "Adding fail",
-    //         severity: "error",
-    //       })
-    //     );
-    //   }
-    // }
+    if (auth.currentUser === null) {
+      dispatch(
+        setOpen({
+          open: true,
+          message: "You must login to buy",
+          severity: "error",
+        })
+      );
+    } else {
+      try {
+        setIsLoading(true)
+        console.log({
+          productId: product?.productId,
+          cartId: cart?.cart.cartId,
+          auth: auth.currentUser?.uid
+        })
+        const response : ResponseBody<CartAndCartItemAndProduct> = await UseAddToCart({
+          productId: product?.productId,
+          cartId: cart?.cart.cartId,
+          auth: auth.currentUser?.uid
+        })
+        dispatch(
+          setOpen({
+            open: true,
+            message: response.message,
+            severity: response.status,
+          })
+        );
+      } catch (error: any) {
+        dispatch(
+          setOpen({
+            open: true,
+            message: error.message,
+            severity: "error",
+          })
+        )
+      } finally {
+        setIsLoading(false)
+      }
+    }
   };
 
 

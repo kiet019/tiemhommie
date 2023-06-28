@@ -1,103 +1,82 @@
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, Typography, styled } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import React, { useContext } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useState, useEffect } from "react";
-import { setOpen } from "@/feature/Alert";
-import { useAppDispatch } from "@/feature/Hooks";
-export default function ChangeQuatityButton({ cartItem, productQuantity }: any) {
-  const dispatch = useAppDispatch();
-  const updateCartItemsQuantity = async (updateQuantity: any) => {
-    if( updateQuantity < 1 || updateQuantity > productQuantity) {
-      dispatch(
-        setOpen({
-          open: true,
-          message: "Invalid number",
-          severity: "error",
-        })
-      );
-    } else {
-    //   const response = await updateCartItemsQuantityApi(
-    //     cartItem.cartItemId,
-    //     updateQuantity
-    //   );
-      if (true) {
-    //     dispatch(
-    //       setOpen({
-    //         open: true,
-    //         message: "Changing success",
-    //         severity: "success",
-    //       })
-        // );
-      } else {
-        dispatch(
-          setOpen({
-            open: true,
-            message: "Delete fail",
-            severity: "error",
-          })
-        );
-      }
-    }
-  };
+
+const StyledGrid = styled(Grid)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-around",
+  cursor: "pointer",
+  height: "inherit",
+  ":hover": {
+    color: "green"
+  }
+})
+export default function ChangeQuatityButton({ cartItem, productQuantity, updateCartItemsQuantity }: any) {
   return (
-    <Grid
-      container
-      spacing={0}
-      sx={{
-        "& .MuiInputBase-root": {
-          borderRadius: "0px",
-        },
-        "& .MuiOutlinedInput-notchedOutline": {
-          border: "0px",
-        },
-        border: "1px solid black",
-        borderRadius: "1rem",
-      }}
-    >
+    <>
       <Grid
-        item
-        xs={4}
+        container
+        spacing={0}
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-around",
-          cursor: "pointer",
-        }}
-        onClick={() => {
-          updateCartItemsQuantity(cartItem.quantity-1)
-        }}
-      >
-        <>
-          <RemoveIcon />
-        </>
-      </Grid>
-      <Grid item xs={4}>
-        <TextField
-          sx={{
+          "& .MuiInputBase-root": {
             borderRadius: "0px",
-          }}
-          type="number"
-          color="success"
-          size="small"
-          value={cartItem.quantity}
-        />
-      </Grid>
-      <Grid
-        item
-        xs={4}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-around",
-          cursor: "pointer",
-        }}
-        onClick={() => {
-            updateCartItemsQuantity(cartItem.quantity+1)
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            border: "0px",
+          },
+          border: "2px solid black",
+          borderRadius: "1rem",
+          height: "2.2rem"
         }}
       >
-        <AddIcon />
+        <StyledGrid
+          item
+          xs={4}
+          onClick={() => {
+            updateCartItemsQuantity(cartItem.cartItemId, cartItem.quantity - 1, productQuantity)
+          }}
+        >
+          <>
+            <RemoveIcon />
+          </>
+        </StyledGrid>
+        <Grid item xs={4} sx={{
+          height: "inherit"
+        }}>
+          <TextField
+            sx={{
+              borderRadius: "0px",
+              "& .MuiInputBase-input": {
+                textAlign: "center",
+                padding: "auto",
+                height: "0rem",
+              }
+            }}
+            color="success"
+            value={cartItem.quantity}
+          />
+        </Grid>
+        <StyledGrid
+          item
+          xs={4}
+
+          onClick={() => {
+            updateCartItemsQuantity(cartItem.cartItemId, cartItem.quantity + 1, productQuantity)
+          }}
+        >
+          <AddIcon />
+        </StyledGrid>
       </Grid>
-    </Grid>
+      <Typography
+        variant="subtitle2"
+        sx={{
+          textAlign: "center",
+        }}
+      >
+        Còn lại: {productQuantity}
+      </Typography>
+    </>
   );
 }

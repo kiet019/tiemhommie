@@ -1,31 +1,67 @@
-import { Paper, Typography, Card, Button, Toolbar, Box, CardMedia } from "@mui/material";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { CheckInView } from "@/checkInScreen";
+import { Paper, Typography, Card, Button, Toolbar, Box, CardMedia, Dialog } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { setOpen } from "@/feature/Alert";
 import { useAppDispatch } from "@/feature/Hooks";
 import { useRouter } from "next/router";
 import { formatNumber } from "../../../package/function";
 import Layout1 from "@/component/theme/layout/Layout1";
-import { CartAndCartItemAndProduct } from "../../../package/model/cart/cart-and-cartItem-and-product";
 import ConfirmPopup from "@/component/theme/confirm/ConfirmPopup";
 import CartTable from "@/component/cart/CartTable";
-import { UseGetCartUserUid } from "../../../package/function/cart/use-get-user";
+import { UseGetCartUserUidHook } from "../../../package/function/cart/use-get-user-hook";
 import { UserContext } from "@/component/auth/AuthContext";
+import { auth } from "@/config/firebase";
+import UseUpdateQuantity from "../../../package/function/cart/use-update-quantity";
 
 
 
 export default function Cart() {
-    const { user } = useContext(UserContext)
-    const { data, isLoading, error } = UseGetCartUserUid({ userUid: user?.userUid })
+    const [isLoadingChanging, setIsLoadingChanging] = useState<boolean>(false)
+    const { data, isLoading, error, mutate } = UseGetCartUserUidHook({ userUid: auth.currentUser?.uid }, isLoadingChanging)
     const [orderList, setOrderList] = useState<String[]>([]);
     const dispatch = useAppDispatch();
     const [total, setTotal] = useState<any>(0);
     const [cartItemDelete, setCartItemDelete] = useState<any>(0);
     const router = useRouter();
-
     const handleDelete = () => {
 
+    }
+    const updateCartItemsQuantity = async (cartItemId: number, updateQuantity: number, productQuantity: number) => {
+        if (updateQuantity < 1 || updateQuantity > productQuantity) {
+            dispatch(
+                setOpen({
+                    open: true,
+                    message: "Invalid number",
+                    severity: "error"
+                })
+            );
+        } else {
+            try {
+                setIsLoadingChanging(true)
+                const response = await UseUpdateQuantity({
+                    cartItemId,
+                    quantity: updateQuantity,
+                    auth: auth.currentUser?.uid
+                });
+                dispatch(
+                    setOpen({
+                        open: true,
+                        message: "Changing success",
+                        severity: "success",
+                    })
+                );
+            } catch (error: any) {
+                dispatch(
+                    setOpen({
+                        open: true,
+                        message: error.message,
+                        severity: "error",
+                    })
+                );
+            } finally {
+                setIsLoadingChanging(false)
+                mutate()
+            }
+        };
     }
     useEffect(() => {
         if (data?.data !== null && data !== undefined) {
@@ -41,26 +77,19 @@ export default function Cart() {
         }
     }, [orderList, data]);
 
-
-    if (isLoading) {
-        return (
-            <Layout1>
-                <CardMedia
-                    component="img"
-                    src="/assets/images/no-cart.jpg" />
-            </Layout1>
-        )
-    }
     return (
         <Layout1>
             <Paper>
-                <CartTable
-                    cart={data?.data}
-                    handleDelete={handleDelete}
-                    setOrderList={setOrderList}
-                    orderList={orderList}
-                    setCartItemDelete={setCartItemDelete}
-                />
+                {isLoading ? null : (
+                    <CartTable
+                        cart={data?.data}
+                        handleDelete={handleDelete}
+                        setOrderList={setOrderList}
+                        orderList={orderList}
+                        setCartItemDelete={setCartItemDelete}
+                        updateCartItemsQuantity={updateCartItemsQuantity}
+                    />
+                )}
             </Paper>
             <Card
                 sx={{
@@ -95,6 +124,7 @@ export default function Cart() {
             </Card>
             <ConfirmPopup
             />
+            <Dialog open={isLoadingChanging}></Dialog>
         </Layout1>
     );
 }

@@ -13,7 +13,7 @@ import ChangeQuatityButton from "../theme/button/ChangeQuantityButton";
 const StyledTableHeadCell = styled(TableCell)({
   fontWeight: 700,
   color: "gray",
-  alignItems: "center",
+  textAlign: "center",
 });
 
 export default function CartTable({
@@ -22,6 +22,7 @@ export default function CartTable({
   setOrderList,
   orderList,
   setCartItemDelete,
+  updateCartItemsQuantity
 }: any) {
   return (
     <TableContainer component={Paper}>
@@ -38,7 +39,7 @@ export default function CartTable({
                 Sản phẩm
               </Typography>
             </TableCell>
-            <StyledTableHeadCell width={120}>Đơn giá</StyledTableHeadCell>
+            <StyledTableHeadCell width={170}>Đơn giá</StyledTableHeadCell>
             <StyledTableHeadCell width={170}>Số lượng</StyledTableHeadCell>
             <StyledTableHeadCell>Thành tiền</StyledTableHeadCell>
             <StyledTableHeadCell></StyledTableHeadCell>
@@ -102,21 +103,14 @@ export default function CartTable({
                   {row.product.price}
                 </Typography>
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="center">
                 <ChangeQuatityButton
+                  updateCartItemsQuantity={updateCartItemsQuantity}
                   cartItem={row}
                   productQuantity={row.product.quantity}
                 />
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  Còn lại: {row.product.quantity}
-                </Typography>
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="center">
                 <Typography>
                   {formatNumber(row.product.price * row.quantity)} VND
                 </Typography>

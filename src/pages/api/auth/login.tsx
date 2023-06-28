@@ -10,7 +10,7 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
     })
     try {
         const params = req.body as UseLoginBody<string>
-        const response = await fetch(`http://localhost:8080/api/user/getUserByUserUid?userUid=${params.auth}`)
+        const response = await fetch(`http://localhost:8080/api/user/getUserByUserUid?userUid=${params.userUid}`)
         if (response.ok) {
             const data: User = await response.json()
             res.status(200).json({
@@ -22,7 +22,7 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
             res.status(200).json({
                 data: null,
                 status: "error",
-                message: "Error, Login fails",
+                message: "Error, Login fail",
             });
         }
     } catch (error: any) {

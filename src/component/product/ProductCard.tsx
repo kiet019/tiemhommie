@@ -4,57 +4,67 @@ import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import { setup } from "@/config/setup";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { Box, IconButton, Tooltip, Zoom } from "@mui/material";
-import { useRouter } from "next/router";
 import { useAppDispatch } from "@/feature/Hooks";
 import { setOpen } from "@/feature/Alert";
 import UrlImage from "../theme/image/Image1";
-import dynamic from "next/dynamic";
 import LoadingIconButton from "../theme/button/LoadingIconButton";
-// import { addToCartApi } from "@/pages/api/CartItemApi";
-// import { UserContext } from "../login/AuthContext";
-// import {CartContext} from "./cart/CartContext";
-export default function ProductCard({ product }: any) {
-  const formatNumber = (number: number) => {
+import { CartAndCartItemAndProduct } from "../../../package/model/cart/cart-and-cartItem-and-product";
+import { UseAddToCart } from "../../../package/function/cart/use-add-cartItem";
+import { Product } from "../../../package/model/product";
+import { UserContext } from "../auth/AuthContext";
+import { ResponseBody } from "../../../package/model/api";
+import { auth } from "@/config/firebase";
+
+const formatNumber = (number: number) => {
+  if (number !== undefined) {
     return number.toLocaleString("en-US");
-  };
-  const [loading, setLoading] = React.useState<boolean>(false);
+  }
+};
+
+interface Props {
+  product: Product
+}
+
+export default function ProductCard({product}: Props) {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const { cart } = React.useContext(UserContext)
   const dispatch = useAppDispatch();
-  //   const { user } = React.useContext(UserContext);
-  //   const { cart } = React.useContext(CartContext)
   const handleAddtoCart = async () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-    // if (user === null ) {
-    //   dispatch(
-    //     setOpen({
-    //       open: true,
-    //       message: "You must login to buy",
-    //       severity: "error",
-    //     })
-    //   );
-    // } else {
-    //   const response = await addToCartApi(cart.cart.cartId, product.productId);
-    //   if (response) {
-    //     dispatch(
-    //       setOpen({
-    //         open: true,
-    //         message: "Adding success",
-    //         severity: "success",
-    //       })
-    //     );
-    //   } else {
+    if (auth.currentUser === null) {
+      dispatch(
+        setOpen({
+          open: true,
+          message: "You must login to buy",
+          severity: "error",
+        })
+      );
+    } else {
+      try {
+        setIsLoading(true)
+        const response : ResponseBody<CartAndCartItemAndProduct> = await UseAddToCart({
+          productId: product?.productId,
+          cartId: cart?.cart.cartId,
+          auth: auth.currentUser?.uid
+        })
         dispatch(
           setOpen({
             open: true,
-            message: "Adding fail",
-            severity: "error",
+            message: response.message,
+            severity: response.status,
           })
         );
-    //   }
-    // }
+      } catch (error: any) {
+        dispatch(
+          setOpen({
+            open: true,
+            message: error.message,
+            severity: "error",
+          })
+        )
+      } finally {
+        setIsLoading(false)
+      }
+    }
   };
   return (
     <Card
@@ -107,15 +117,16 @@ export default function ProductCard({ product }: any) {
           >
             {formatNumber(product.price)} VND
           </Typography>
-            <LoadingIconButton
-              loading={loading}
-              size="large"
-              onClick={handleAddtoCart}
-            >
-              <AddShoppingCartIcon />
-            </LoadingIconButton>
+          <LoadingIconButton
+            loading={isLoading}
+            size="large"
+            onClick={handleAddtoCart}
+          >
+            <AddShoppingCartIcon />
+          </LoadingIconButton>
         </CardActions>
       </div>
     </Card>
   );
 }
+

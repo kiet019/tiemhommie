@@ -1,6 +1,6 @@
 import { AuthProvider } from "firebase/auth";
 
-export interface useLoginGoogleBody<T> {
+export interface UseLoginGoogleBody<T> {
     auth: T,
     provider: AuthProvider
 }

@@ -1,10 +1,12 @@
+import { mutate } from "swr";
+
 export interface FetcherProps {
   options?: any;
   headers?: any;
   body?: any;
   method: "GET" | "POST" | "PUT" | "DELETE";
 }
-export const fetcher = async (url: string, props: FetcherProps, ) => {
+export const fetcher = async (url: string, props: FetcherProps) => {
   const { options, body, headers, method } = props;
 
   try {

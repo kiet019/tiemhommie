@@ -24,14 +24,14 @@ export default function InformationCard() {
   const router = useRouter()
   useEffect(() => {
     return () => {
-        signOut(auth)
+      signOut(auth)
     };
   }, []);
 
   const onSubmit = async (fields: any) => {
     try {
       setIsLoading(true)
-      const data : ResponseBody<User> = await UseRegister({
+      const data: ResponseBody<User> = await UseRegister({
         email: auth.currentUser?.email,
         auth: auth.currentUser?.uid,
         address: `${fields.address}, ${address}`,
@@ -43,8 +43,8 @@ export default function InformationCard() {
         message: data.message,
         severity: data.status
       }))
-      data.data? router.push("/") : null
-    } catch (error : any) {
+      data.data ? router.push("/") : null
+    } catch (error: any) {
       dispatch(setOpen({
         open: true,
         message: error.message,

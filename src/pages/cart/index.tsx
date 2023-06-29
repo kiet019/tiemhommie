@@ -5,10 +5,9 @@ import {
   Button,
   Toolbar,
   Box,
-  Dialog,
   CardMedia,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { setOpen } from "@/feature/Alert";
 import { useAppDispatch } from "@/feature/Hooks";
 import { useRouter } from "next/router";
@@ -23,18 +22,17 @@ import UseUpdateQuantity from "../../../package/function/cart/use-update-quantit
 import { UseDeleteCartItem } from "../../../package/function/cart/use-delete-cartItem";
 
 export default function Cart() {
-  const [isLoadingChanging, setIsLoadingChanging] = useState<boolean>(false);
   const { data, isLoading, error, mutate } = UseGetCartUserUidHook(
-    { userUid: auth.currentUser?.uid },
-    isLoadingChanging
+    { userUid: auth.currentUser?.uid }
   );
   const [orderList, setOrderList] = useState<String[]>([]);
   const dispatch = useAppDispatch();
   const [total, setTotal] = useState<any>(0);
   const router = useRouter();
+  const { setOpenLoading } = useContext(UserContext)
   const handleDelete = async (cartItemId: number) => {
     try {
-      setIsLoadingChanging(true);
+      setOpenLoading(true);
       const response = await UseDeleteCartItem({
         cartItemId,
       });
@@ -55,7 +53,7 @@ export default function Cart() {
       );
     } finally {
       await mutate();
-      setIsLoadingChanging(false);
+      setOpenLoading(false);
     }
   };
   const updateCartItemsQuantity = async (
@@ -73,7 +71,7 @@ export default function Cart() {
       );
     } else {
       try {
-        setIsLoadingChanging(true);
+        setOpenLoading(true);
         const response = await UseUpdateQuantity({
           cartItemId,
           quantity: updateQuantity,
@@ -96,11 +94,11 @@ export default function Cart() {
         );
       } finally {
         await mutate();
-        setIsLoadingChanging(false);
+        setOpenLoading(false);
       }
     }
   };
-  
+
   useEffect(() => {
     if (data?.data !== null && data !== undefined) {
       const totalCartItem = data.data.productAndCartItemList.filter(
@@ -117,8 +115,8 @@ export default function Cart() {
 
   return (
     <Layout1>
-      <Paper>
-        {!isLoading ? (
+      {!isLoading ? (
+        <Paper>
           <CartTable
             cart={data?.data}
             handleDelete={handleDelete}
@@ -126,10 +124,12 @@ export default function Cart() {
             orderList={orderList}
             updateCartItemsQuantity={updateCartItemsQuantity}
           />
-        ) : (
-          <CardMedia component="img" src="/assets/images/no-cart.jpg" />
-        )}
-      </Paper>
+        </Paper>
+      ) : (
+        <CardMedia component="img" src="/assets/images/no-cart.jpg" sx={{
+          padding: "0rem 10rem"
+        }}/>
+      )}
       <Card
         sx={{
           marginTop: "2rem",
@@ -154,7 +154,7 @@ export default function Cart() {
             disabled={orderList.length == 0}
             type="submit"
             onClick={() => {
-              router.push(`order?orderIds=${orderList}&total=${total}`);
+              router.push(`order/${orderList}/${total}`);
             }}
           >
             Thanh toán
@@ -162,7 +162,6 @@ export default function Cart() {
         </Toolbar>
       </Card>
       <ConfirmPopup />
-      <Dialog open={isLoadingChanging}></Dialog>
     </Layout1>
   );
 }

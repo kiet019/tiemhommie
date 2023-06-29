@@ -1,10 +1,8 @@
 import React, { useContext, useState } from "react";
-import GoogleIcon from "@mui/icons-material/Google";
 import { UserContext } from "./AuthContext";
 import { useForm } from "react-hook-form";
 import StyledLink from "../theme/navLink/Link";
 import StyledOutlinedInput from "../theme/input/StyledInput";
-import StyledLoadingButton from "../theme/button/StyledLoadingButton";
 import LineText from "../theme/text/LineText";
 import { UseLogin } from "../../../package/function/auth/use-login";
 import { auth } from "@/config/firebase";
@@ -16,11 +14,12 @@ import { Typography } from "@mui/material";
 import { ggProvider } from './../../config/firebase';
 import { UseLoginGoogle } from "../../../package/function/auth/use-login-google";
 import SocialButton from "./SocialButton";
+import { StyledButton } from "../theme/button/StyledButton";
 
 export default function LoginCard() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter()
   const dispatch = useAppDispatch()
+  const { setOpenLoading } = useContext(UserContext)
   const {
     register,
     handleSubmit,
@@ -28,7 +27,7 @@ export default function LoginCard() {
   } = useForm();
   const onSubmit = async (fields: any) => {
     try {
-      setIsLoading(true);
+      setOpenLoading(true);
       const data = await UseLogin({
         email: fields.email,
         password: fields.password,
@@ -47,13 +46,13 @@ export default function LoginCard() {
         severity: "error"
       }))
     } finally {
-      setIsLoading(false);
+      setOpenLoading(false);
     }
   };
 
   const handleLoginGoogle = async () => {
     try {
-      setIsLoading(true)
+      setOpenLoading(true)
       const data = await UseLoginGoogle({ auth, provider: ggProvider })
       if (data.data === null) {
         router.push("/information")
@@ -72,7 +71,7 @@ export default function LoginCard() {
         severity: "error"
       }))
     } finally {
-      setIsLoading(false);
+      setOpenLoading(false);
     }
   }
   return (
@@ -98,8 +97,8 @@ export default function LoginCard() {
         })}
         type="password"
       />
-      <StyledLoadingButton
-        loading={isLoading}
+      <StyledButton
+        // loading={isLoading}
         sx={{
           backgroundColor: setup.inside
         }}
@@ -108,7 +107,7 @@ export default function LoginCard() {
         variant="contained"
       >
         Đăng nhập
-      </StyledLoadingButton>
+      </StyledButton>
       <Typography sx={{
         fontWeight: "500",
         textAlign: "center",
@@ -133,7 +132,7 @@ export default function LoginCard() {
           marginTop: "1rem",
         }}
       >
-        <SocialButton handleLoginGoogle={handleLoginGoogle} isLoading={isLoading}/>
+        <SocialButton handleLoginGoogle={handleLoginGoogle}/>
         <StyledLink
           style={{
             fontSize: "0.9rem",

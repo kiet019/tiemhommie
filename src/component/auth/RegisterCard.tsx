@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useForm } from "react-hook-form";
 import { UserContext } from "./AuthContext";
@@ -8,8 +8,6 @@ import StyledLink from "../theme/navLink/Link";
 import { StyledButton } from "../theme/button/StyledButton";
 import LineText from "../theme/text/LineText";
 import StyledOutlinedInput from "../theme/input/StyledInput";
-import StyledLoadingButton from "../theme/button/StyledLoadingButton";
-import FlexBox from "../theme/flexbox/FlexBox";
 import { setup } from "@/config/setup";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, ggProvider } from "@/config/firebase";
@@ -19,12 +17,12 @@ import { UseLoginGoogle } from "../../../package/function/auth/use-login-google"
 import SocialButton from "./SocialButton";
 export default function RegisterCard() {
   const { register, handleSubmit, formState: { errors }, } = useForm()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const { setOpenLoading } = useContext(UserContext)
   const handleLoginGoogle = async () => {
     try {
-      setIsLoading(true)
+      setOpenLoading(true)
       const data = await UseLoginGoogle({ auth, provider: ggProvider })
       if (data.data === null) {
         router.push("/information")
@@ -43,13 +41,13 @@ export default function RegisterCard() {
         severity: "error"
       }))
     } finally {
-      setIsLoading(false);
+      setOpenLoading(false);
     }
   }
 
   const onSubmit = async (fields: any) => {
     try {
-      setIsLoading(true)
+      setOpenLoading(true)
       await createUserWithEmailAndPassword(auth, fields.email, fields.password)
       dispatch(setOpen({
         message: "Success, Create success",
@@ -64,7 +62,7 @@ export default function RegisterCard() {
         severity: "error"
       }))
     } finally {
-      setIsLoading(false)
+      setOpenLoading(false)
     }
   }
   return (
@@ -88,8 +86,7 @@ export default function RegisterCard() {
           minLength: 6
         })}
       />
-      <StyledLoadingButton
-        loading={isLoading}
+      <StyledButton
         type="submit"
         fullWidth
         variant="contained"
@@ -98,7 +95,7 @@ export default function RegisterCard() {
         }}
       >
         Đăng kí
-      </StyledLoadingButton>
+      </StyledButton>
       <Typography sx={{
         fontWeight: "500",
         textAlign: "center",
@@ -123,7 +120,7 @@ export default function RegisterCard() {
           marginTop: "1rem",
         }}
       >
-        <SocialButton handleLoginGoogle={handleLoginGoogle} isLoading={isLoading}/>
+        <SocialButton handleLoginGoogle={handleLoginGoogle}/>
         <StyledLink
           style={{
             fontSize: "0.9rem",

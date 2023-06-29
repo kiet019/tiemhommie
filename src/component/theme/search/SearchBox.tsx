@@ -10,9 +10,8 @@ export default function SearchBox() {
   const [searchValue, setSearchValue] = useState<string>("");
   const [suggestions, setSuggestions] = useState<any>([]);
 
-  const handleSearchChange = (event: any) => {
-    const value = event.target.value;
-    setSearchValue(value);
+  const handleSearchChange = (event: any, value: string) => {
+    setSearchValue(value); // Cập nhật giá trị searchValue khi có sự thay đổi
     const newSuggestions = suggest.filter((item) => {
       if (typeof item === "string" && typeof value === "string") {
         return item.toLowerCase().includes(value.toLowerCase());
@@ -21,10 +20,10 @@ export default function SearchBox() {
     });
     setSuggestions(newSuggestions);
   };
-
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    router.push(`/search/${searchValue.replace(/[%&#/]/g, "")}`);
+    const cleanedValue = searchValue.replace(/[%&#/]/g, "");
+    router.push(`/search/${cleanedValue}`);
   };
 
   return (
@@ -48,8 +47,10 @@ export default function SearchBox() {
       </label>
       <Autocomplete
         freeSolo
+        inputValue={searchValue}
         onInputChange={handleSearchChange}
         options={suggestions}
+        selectOnFocus
         renderInput={(params) => (
           <TextField
             {...params}
@@ -57,7 +58,6 @@ export default function SearchBox() {
             id="search"
             variant="outlined"
             value={searchValue}
-            onChange={handleSearchChange}
             sx={{
               "& .MuiInputBase-root": {
                 backgroundColor: "white",

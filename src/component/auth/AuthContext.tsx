@@ -5,15 +5,24 @@ import { CartAndCartItemAndProduct } from "../../../package/model/cart/cart-and-
 import { UseLogin } from "../../../package/function/auth/use-login";
 import { useRouter } from "next/router";
 import { UseGetCartUserUid } from "../../../package/function/cart/use-get-user";
+import { Dialog } from "@mui/material";
 const userInit = {
   cart: null as unknown as CartAndCartItemAndProduct | null,
-  setCart: (cart: CartAndCartItemAndProduct | null) => {}
+  setCart: (cart: CartAndCartItemAndProduct | null) => {},
+  openLoading: false as boolean,
+  setOpenLoading: (openLoading : boolean) => {}
 };
 export const UserContext = createContext(userInit);
 
 export default function AuthProvider({ children }: any) {
+  const [open, setOpen] = useState<boolean>(false)
+  const openLoading = open
+  const setOpenLoading = (openLoading : boolean) => {
+    setOpen(openLoading)
+  }
+ 
+
   const [currentCart, setCurrentCart] = useState<CartAndCartItemAndProduct | null>(null)
-  const router = useRouter()
   const cart = currentCart;
   const setCart = (cart: CartAndCartItemAndProduct | null) => {
     setCurrentCart(cart)
@@ -44,7 +53,8 @@ export default function AuthProvider({ children }: any) {
     };
   }, []);
   return (
-    <UserContext.Provider value={{ cart, setCart }}>
+    <UserContext.Provider value={{ cart, setCart, openLoading, setOpenLoading }}>
+      <Dialog open={open}/>
       {children}
     </UserContext.Provider>
   );

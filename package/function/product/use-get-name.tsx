@@ -2,7 +2,7 @@ import { FetcherProps, fetcher } from "../../fetcher";
 import { UseGetProductNameBody } from "../../model/api/product/get-name";
 import { Product } from "../../model/product";
 
-export const UseGetProductName = async ({productName} : UseGetProductNameBody) => {
+export const UseGetProductName = async ({productName} : UseGetProductNameBody)  => {
   const url = `http://localhost:8080/api/product/searchByName?productName=${productName}`;
   const props : FetcherProps = {
     method: "GET",
@@ -15,9 +15,9 @@ export const UseGetProductName = async ({productName} : UseGetProductNameBody) =
   try {
     const data : Product[] = await fetcher(url, props)
     return {
-        data: data,
-        message: "success",
-        status: "success"
+      data: data,
+      message: "success",
+      status: "success"
     }
   } catch( error : any ) {
     return {

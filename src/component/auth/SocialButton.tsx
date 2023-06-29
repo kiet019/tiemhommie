@@ -1,10 +1,9 @@
 import React from 'react'
-import StyledLoadingButton from '../theme/button/StyledLoadingButton'
 import GoogleIcon from "@mui/icons-material/Google";
-const SocialButton = ({handleLoginGoogle, isLoading} : any) => {
+import { StyledButton } from '../theme/button/StyledButton';
+const SocialButton = ({handleLoginGoogle} : any) => {
   return (
-    <StyledLoadingButton
-    loading={isLoading}
+    <StyledButton
     variant="contained"
     style={{ backgroundColor: "rgb(220 137 3)" }}
     fullWidth
@@ -12,7 +11,7 @@ const SocialButton = ({handleLoginGoogle, isLoading} : any) => {
   >
     <GoogleIcon style={{ fontSize: "1.5rem", marginRight: "1rem" }} />
     Đăng nhập bằng google
-  </StyledLoadingButton>
+  </StyledButton>
   )
 }
 

@@ -4,7 +4,7 @@ import { ResponseBody } from "../../model/api";
 import { UseGetCartUserUidBody } from "../../model/api/cart/get-user";
 import { CartAndCartItemAndProduct } from "../../model/cart/cart-and-cartItem-and-product";
 
-export const UseGetCartUserUidHook = ({ userUid, }: UseGetCartUserUidBody, params: any) => {
+export const UseGetCartUserUidHook = ({ userUid, }: UseGetCartUserUidBody) => {
   const url = `/api/cart?userUid=${userUid}`;
   const props: FetcherProps = {
     method: "GET"

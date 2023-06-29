@@ -29,7 +29,7 @@ export const categoryList = [
 ];
 export const productStatus = [{ name: "Bán chạy" }, { name: "Hàng mới" }];
 export const suggest = [
-   "LEGO Hoa Hồng ",
+   "LEGO Hoa Hồng",
    "LEGO Hoa Hướng Dương",
    "LEGO Hoa Thủy Tiên",
    "LEGO Hoa Lan",
@@ -52,7 +52,7 @@ export const suggest = [
    "Gối nhồi bông chữ U tai mèo",
    "Gối nhồi bông chữ U hoa văn caro",
    "Combo 4 huy hiệu cài áo Vô diện",
-   "Huy hiệu cài áo Khủng long ",
+   "Huy hiệu cài áo Khủng long",
    "Huy hiệu cài áo Dơi tím",
    "Huy hiệu cài áo Ong & Hoa",
    "Huy hiệu cài áo Sách và Hoa",

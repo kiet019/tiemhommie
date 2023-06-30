@@ -158,7 +158,7 @@ export default function Cart() {
             disabled={orderList.length == 0}
             type="submit"
             onClick={() => {
-              router.push(`order/${orderList}/${total}/${auth.currentUser?.uid}`);
+              router.push(`checkout/${orderList}/${total}/${auth.currentUser?.uid}`);
             }}
           >
             Thanh toán

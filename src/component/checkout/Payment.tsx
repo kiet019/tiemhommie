@@ -1,18 +1,7 @@
 import { Typography, Toolbar, CardMedia, Box, Checkbox } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-export default function OrderPayment({ setSelectPayment, selectPayment }: any) {
-  const [paymentList, setPaymentList] = useState<any[]>([]);
-  useEffect(() => {
-    const getPayment = async () => {
-      const response = await fetch(
-        "http://localhost:8080/api/payment/allPayment"
-      );
-      const data: any = await response.json();
-      setPaymentList(data);
-    };
-    getPayment();
-  }, []);
+export default function CheckoutPayment({ setSelectPayment, selectPayment, paymentList }: any) {
 
   return (
     <>
@@ -24,7 +13,7 @@ export default function OrderPayment({ setSelectPayment, selectPayment }: any) {
       >
         Phương thức thanh toán
       </Typography>
-      {paymentList.map((payment: any) => (
+      {paymentList !== undefined ? paymentList.map((payment: any) => (
         <div
           style={{
             border: "2px solid #1a9cb7",
@@ -74,7 +63,7 @@ export default function OrderPayment({ setSelectPayment, selectPayment }: any) {
             />
           </Toolbar>
         </div>
-      ))}
+      )) : null}
     </>
   );
 }

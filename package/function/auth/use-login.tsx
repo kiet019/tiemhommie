@@ -25,7 +25,7 @@ export const UseLogin = async ({ email, password, auth, userUid }: UseLoginBody<
         const data: ResponseBody<User> = await fetcher(url, props)
         return data
     } else if (userUid !== undefined) {
-        const url = `/api/auth/login`;
+        const url = `http://localhost:3000/api/auth/login`;
         const props: FetcherProps = {
             method: "POST",
             headers: {

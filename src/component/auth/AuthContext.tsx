@@ -32,6 +32,7 @@ export default function AuthProvider({ children }: any) {
       if (currentUser !== null) {
         const user = await UseLogin({ userUid: currentUser.uid })
         if (user.data !== null) {
+          setOpenLoading(true)
           const data = await UseGetCartUserUid({
             userUid: currentUser.uid
           })
@@ -42,6 +43,8 @@ export default function AuthProvider({ children }: any) {
       }
     } catch (error: any) {
       console.log(error)
+    } finally {
+      setOpenLoading(false)
     }
   };
   useEffect(() => {

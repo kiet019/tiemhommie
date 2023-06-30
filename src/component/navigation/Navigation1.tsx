@@ -45,13 +45,9 @@ const Navigation1 = () => {
               }}
             >
               <Tooltip title={auth.currentUser !== null ? `Login as ${auth.currentUser?.email}` : ""}>
-                <AccountIconButton href={auth.currentUser !== null ? "/profile" : "/login"} />
+                <AccountIconButton href={auth.currentUser !== null ? `/profile/${auth.currentUser?.uid}` : "/login"} />
               </Tooltip>
               <CartIconButton number={cart !== null ? cart.productAndCartItemList.length : 0} url={auth.currentUser !== null ? "/cart" : "/"} />
-              <Button onClick={() => {
-                signOut(auth)
-                router.replace("/")
-              }}>Logout</Button>
             </div>
           </div>
           <div

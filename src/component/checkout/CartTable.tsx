@@ -12,7 +12,7 @@ import {
 import { formatNumber } from "../../../package/function";
 import { ProductAndCartItem } from "../../../package/model/product/product-and-cartItem";
 
-export default function PreOrderTable({
+export default function CheckoutCartTable({
   orderList,
 }: {
   orderList: ProductAndCartItem[] | undefined;

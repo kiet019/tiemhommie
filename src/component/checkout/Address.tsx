@@ -1,18 +1,12 @@
 import { Paper, Typography, Box, Checkbox } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 
-export default function PreOrderAddress({
+export default function CheckoutAddress({
   selectAddress,
   setSelectAddress,
+  addressList,
+  userBackend
 }: any) {
-  const [userAddressList, setUserAddressList] = useState<any>([]);
-  //   useEffect(() => {
-  //     const getAddress = async () => {
-  //       const addressList = await getAddressByUserUidApi();
-  //       setUserAddressList(addressList);
-  //     };
-  //     getAddress();
-  //   }, [user]);
   return (
     <Paper
       sx={{
@@ -28,7 +22,7 @@ export default function PreOrderAddress({
       >
         Địa chỉ giao hàng
       </Typography>
-      {userAddressList.map((userAddress: any, key: any) => (
+      {addressList !== undefined ? addressList.map((userAddress: any, key: any) => (
         <div
           style={{
             marginTop: "1rem",
@@ -48,27 +42,24 @@ export default function PreOrderAddress({
             >
               <Typography
                 sx={{
-                  fontSize: "1rem",
                   padding: "0rem 1rem 0rem 0rem",
                   fontWeight: "700",
                 }}
               >
-                {/* {userBackend.userName} */}
+                {userBackend.userName}
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "1rem",
                   padding: "0rem 1rem 0rem 1rem",
                   borderLeft: "1px solid gray",
                   color: "gray",
                 }}
               >
-                {/* {userBackend.phoneNumber} */}
+                {userBackend.phoneNumber}
               </Typography>
             </div>
             <Typography
               sx={{
-                fontSize: "1rem",
                 color: "gray",
               }}
             >
@@ -94,7 +85,7 @@ export default function PreOrderAddress({
             }}
           />
         </div>
-      ))}
+      )) : null}
     </Paper>
   );
 }

@@ -15,7 +15,7 @@ import { ProductAndCartItem } from "../../../package/model/product/product-and-c
 export default function PreOrderTable({
   orderList,
 }: {
-  orderList: ProductAndCartItem[];
+  orderList: ProductAndCartItem[] | undefined;
 }) {
   return (
     <TableContainer component={Paper}>
@@ -61,7 +61,7 @@ export default function PreOrderTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {orderList.map((row: ProductAndCartItem, index: any) => (
+          {orderList !== undefined ? orderList.map((row: ProductAndCartItem, index: any) => (
             <TableRow key={index}>
               <TableCell component="th" scope="row">
                 <div
@@ -110,7 +110,7 @@ export default function PreOrderTable({
                 </Typography>
               </TableCell>
             </TableRow>
-          ))}
+          )) : null}
         </TableBody>
       </Table>
     </TableContainer>

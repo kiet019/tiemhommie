@@ -26,7 +26,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const slug = params?.slug;
-  let orderList: ProductAndCartItem[] | null = [];
+  let orderList: ProductAndCartItem[] | undefined = [];
   let total: number = 0;
   // let paymentList : Payment = []
   if (slug !== undefined) {
@@ -47,7 +47,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 };
 
 interface Props {
-  orderList: ProductAndCartItem[];
+  orderList: ProductAndCartItem[] | undefined;
   total: number;
 }
 const Order = ({ orderList, total }: Props) => {

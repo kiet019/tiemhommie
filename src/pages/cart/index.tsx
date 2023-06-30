@@ -22,15 +22,15 @@ import UseUpdateQuantity from "../../../package/function/cart/use-update-quantit
 import { UseDeleteCartItem } from "../../../package/function/cart/use-delete-cartItem";
 
 export default function Cart() {
-  const { data, isLoading, error, mutate } = UseGetCartUserUidHook(
-    { userUid: auth.currentUser?.uid }
-  );
+  const { data, isLoading, error, mutate } = UseGetCartUserUidHook({
+    userUid: auth.currentUser?.uid,
+  });
   const [orderList, setOrderList] = useState<String[]>([]);
   const dispatch = useAppDispatch();
   const [total, setTotal] = useState<any>(0);
   const router = useRouter();
-  const { setOpenLoading } = useContext(UserContext)
-  const handleDelete = async (cartItemId: number) => {
+  const { setOpenLoading } = useContext(UserContext);
+  const handleDelete = async ({ cartItemId }: { cartItemId: number }) => {
     try {
       setOpenLoading(true);
       const response = await UseDeleteCartItem({
@@ -126,9 +126,13 @@ export default function Cart() {
           />
         </Paper>
       ) : (
-        <CardMedia component="img" src="/assets/images/no-cart.jpg" sx={{
-          padding: "0rem 10rem"
-        }}/>
+        <CardMedia
+          component="img"
+          src="/assets/images/no-cart.jpg"
+          sx={{
+            padding: "0rem 10rem",
+          }}
+        />
       )}
       <Card
         sx={{
@@ -154,14 +158,13 @@ export default function Cart() {
             disabled={orderList.length == 0}
             type="submit"
             onClick={() => {
-              router.push(`order/${orderList}/${total}`);
+              router.push(`order/${orderList}/${total}/${auth.currentUser?.uid}`);
             }}
           >
             Thanh toán
           </Button>
         </Toolbar>
       </Card>
-      <ConfirmPopup />
     </Layout1>
   );
 }

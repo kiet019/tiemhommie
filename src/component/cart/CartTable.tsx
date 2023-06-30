@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import { Button, CardMedia, Checkbox, Typography, styled } from "@mui/material";
 import { formatNumber } from "../../../package/function";
 import ChangeQuatityButton from "../theme/button/ChangeQuantityButton";
+import ConfirmPopup from "../theme/confirm/ConfirmPopup";
 
 const StyledTableHeadCell = styled(TableCell)({
   fontWeight: 700,
@@ -23,12 +24,14 @@ export default function CartTable({
   orderList,
   updateCartItemsQuantity,
 }: any) {
+  const [openConfirmPopup, setOpenConfirmPopup] =
+    React.useState<boolean>(false);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell width={470}>
+            <TableCell width={500}>
               <Typography
                 variant="h5"
                 sx={{
@@ -45,7 +48,7 @@ export default function CartTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          { cart.productAndCartItemList.map((row: any, key: any) => (
+          {cart.productAndCartItemList.map((row: any, key: any) => (
             <TableRow key={key}>
               <TableCell component="th" scope="row">
                 <div
@@ -77,19 +80,14 @@ export default function CartTable({
                     sx={{
                       width: "7rem",
                       height: "5rem",
-                      paddingRight: "2rem",
+                      paddingLeft: "1rem",
+                      marginRight: "1rem",
                     }}
                     src={"/assets/images/" + row.product.image}
                   />
-                  <div
-                    style={{
-                      paddingRight: "1rem",
-                    }}
-                  >
-                    <Typography variant="h6">
-                      {row.product.productName}
-                    </Typography>
-                  </div>
+                  <Typography variant="h6">
+                    {row.product.productName}
+                  </Typography>
                 </div>
               </TableCell>
               <TableCell>
@@ -119,7 +117,7 @@ export default function CartTable({
                   color="error"
                   variant="contained"
                   onClick={() => {
-                    handleDelete(row.cartItemId);
+                    setOpenConfirmPopup(true)
                   }}
                   sx={{
                     margin: "1rem",
@@ -128,6 +126,12 @@ export default function CartTable({
                   Xoá
                 </Button>
               </TableCell>
+              <ConfirmPopup
+                openConfirmPopup={openConfirmPopup}
+                setOpenConfirmPopup={setOpenConfirmPopup}
+                func={handleDelete}
+                cartItemId={row.cartItemId}
+              />
             </TableRow>
           ))}
         </TableBody>

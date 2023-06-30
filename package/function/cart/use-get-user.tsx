@@ -12,6 +12,6 @@ export const UseGetCartUserUid = async ({ userUid }: UseGetCartUserUidBody) => {
       }
     }
   }
-  const response: ResponseBody<CartAndCartItemAndProduct> = await fetcher(`/api/cart?userUid=${userUid}`, Props)
+  const response: ResponseBody<CartAndCartItemAndProduct> = await fetcher(`http:localhost:3000/api/cart?userUid=${userUid}`, Props)
   return response
 }

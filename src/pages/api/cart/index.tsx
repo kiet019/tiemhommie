@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Product } from "../../../../package/model/product";
 import { UseGetCartUserUidBody } from "../../../../package/model/api/cart/get-user";
 import { CartAndCartItemAndProduct } from "../../../../package/model/cart/cart-and-cartItem-and-product";
 

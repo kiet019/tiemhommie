@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
-export default function ConfirmPopup() {
+export default function ConfirmPopup({
+  openConfirmPopup,
+  setOpenConfirmPopup,
+  func,
+  ...props
+}: any) {
+
   return (
     <Dialog
-      open={false}
+      open={openConfirmPopup}
       maxWidth="xs"
       onClose={() => {
       }}
@@ -18,6 +24,7 @@ export default function ConfirmPopup() {
         <Button
           color="secondary"
           onClick={() => {
+            setOpenConfirmPopup(false)
           }}
         >
           Cancel
@@ -25,6 +32,8 @@ export default function ConfirmPopup() {
         <Button
           color="error"
           onClick={() => {
+            func({...props})
+            setOpenConfirmPopup(false)
           }}
         >
           Delete

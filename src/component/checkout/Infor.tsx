@@ -43,7 +43,7 @@ const CheckoutInfor = ({ total, selectAddress, selectPayment }: { total: number,
                         color: "gray",
                     }}
                 >
-                    {formatNumber(total)} VND
+                    {formatNumber(+total)} VND
                 </Typography>
             </div>
             <div

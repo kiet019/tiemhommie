@@ -6,11 +6,11 @@ import {
   InputAdornment,
   styled,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
-import { useAppDispatch, useAppSelector } from "@/feature/Hooks";
+import { useAppDispatch } from "@/feature/Hooks";
 import Layout2 from "@/component/theme/layout/Layout2";
-import { GetServerSideProps, GetServerSidePropsContext, GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import { UseLogin } from "../../../package/function/auth/use-login";
 import { ResponseBody } from "../../../package/model/api";
 import { User } from "../../../package/model/user";
@@ -21,37 +21,45 @@ import { UseAddNewAddress } from "../../../package/function/address/use-add";
 import { UserContext } from "@/component/auth/AuthContext";
 import { UseDeleteAddress } from "../../../package/function/address/use-delete";
 import { auth } from "@/config/firebase";
+import ConfirmPopup from "@/component/theme/confirm/ConfirmPopup";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const slug = params?.slug
+  const slug = params?.slug;
   if (slug !== undefined) {
-      const response: ResponseBody<User> = await UseLogin({ userUid: slug[0] })
-      return {
-        props: {
-          user: response.data
-        }
-      }
-  } 
+    const response: ResponseBody<User> = await UseLogin({ userUid: slug[0] });
+    return {
+      props: {
+        user: response.data,
+      },
+    };
+  }
   return {
     props: {
-      user: {}
-    }
-  }
-}
+      user: {},
+    },
+  };
+};
 
 const StyledTypography = styled(Typography)({
   marginBottom: "1rem",
-  fontWeight: 600
-})
+  fontWeight: 600,
+});
 
-export default function Profile({ user }: {user : User}) {
-  const { data, isLoading, error, mutate } = UseGetAddressUserUidHook({ userUid: auth.currentUser?.uid })
-  console.log(data)
+export default function Profile({ user }: { user: User }) {
+  const { data, isLoading, error, mutate } = UseGetAddressUserUidHook({
+    userUid: auth.currentUser?.uid,
+  });
   const dispatch = useAppDispatch();
-  const { setOpenLoading } = useContext(UserContext)
-  const handleAddAddress = async ({ address }: { street: string, address: string }) => {
+  const { setOpenLoading } = useContext(UserContext);
+  const [openConfirmPopup, setOpenConfirmPopup] = useState<boolean>(false);
+  const handleAddAddress = async ({
+    address,
+  }: {
+    street: string;
+    address: string;
+  }) => {
     try {
-      setOpenLoading(true)
+      setOpenLoading(true);
       const response = await UseAddNewAddress({
         address,
         userId: user.userId,
@@ -72,15 +80,15 @@ export default function Profile({ user }: {user : User}) {
         })
       );
     } finally {
-      await mutate()
-      setOpenLoading(false)
+      await mutate();
+      setOpenLoading(false);
     }
   };
-  const handleDeleteAddress = async (addressId: number) => {
+  const handleDeleteAddress = async ({addressId} : {addressId: number}) => {
     try {
-      setOpenLoading(true)
+      setOpenLoading(true);
       const response = await UseDeleteAddress({
-        addressId
+        addressId,
       });
       dispatch(
         setOpen({
@@ -98,10 +106,10 @@ export default function Profile({ user }: {user : User}) {
         })
       );
     } finally {
-      await mutate()
-      setOpenLoading(false)
+      await mutate();
+      setOpenLoading(false);
     }
-  }
+  };
   return (
     <Layout2>
       <Paper
@@ -126,50 +134,52 @@ export default function Profile({ user }: {user : User}) {
             }}
           />
           <div>
-            {/* <StyledTypography>
-              Name: {user.userName}
-            </StyledTypography>
-            <StyledTypography>
-              Email: {user.email}
-            </StyledTypography>
-            <StyledTypography>
-              Phone: {user.phoneNumber}
-            </StyledTypography> */}
+            {user !== undefined ? (
+              <>
+                <StyledTypography>Name: {user.userName}</StyledTypography>
+                <StyledTypography>Email: {user.email}</StyledTypography>
+                <StyledTypography>Phone: {user.phoneNumber}</StyledTypography>
+              </>
+            ) : null}
           </div>
         </div>
         <AddressButton handleAddAddress={handleAddAddress} />
 
-        {!isLoading && data?.data !== null ? (data?.data.map((userAddress: Address, key: any) => (
-          <TextField
-            key={key}
-            defaultValue={userAddress.address}
-            fullWidth
-            label={`Address ${key + 1}`}
-            disabled
-            sx={{
-              marginTop: "1rem",
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment
-                  position="end"
-                  onClick={() => {
-                    handleDeleteAddress(userAddress.addressId)
+        {!isLoading && data?.data !== null
+          ? data?.data.map((userAddress: Address, key: any) => (
+              <>
+                <TextField
+                  key={key}
+                  value={userAddress.address}
+                  fullWidth
+                  label={`Address ${key + 1}`}
+                  disabled
+                  sx={{
+                    marginTop: "1rem",
                   }}
-                >
-                  <ClearIcon
-                    color="error"
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                  />
-                </InputAdornment>
-              ),
-            }}
-          />
-        ))) : null}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment
+                        position="end"
+                        onClick={() => {
+                          setOpenConfirmPopup(true)
+                        }}
+                      >
+                        <ClearIcon
+                          color="error"
+                          sx={{
+                            cursor: "pointer",
+                          }}
+                        />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <ConfirmPopup openConfirmPopup={openConfirmPopup} setOpenConfirmPopup={setOpenConfirmPopup} func={handleDeleteAddress} addressId={userAddress.addressId}/>
+              </>
+            ))
+          : null}
       </Paper>
     </Layout2>
   );
 }
-

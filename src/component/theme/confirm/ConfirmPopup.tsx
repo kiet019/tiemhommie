@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 export default function ConfirmPopup({
   openConfirmPopup,

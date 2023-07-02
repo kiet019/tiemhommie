@@ -5,7 +5,6 @@ import { Payment } from '../../../package/model/payment'
 import { StyledButton } from '../theme/button/StyledButton'
 
 const CheckoutInfor = ({ total, selectAddress, selectPayment }: { total: number, selectAddress: Address | null, selectPayment: Payment | null }) => {
-    console.log(total)
     return (
         <div
             style={{

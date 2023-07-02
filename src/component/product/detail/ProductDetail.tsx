@@ -29,11 +29,7 @@ export default function ProductDetail({ product }: any) {
     } else {
       try {
         setIsLoading(true)
-        console.log({
-          productId: product?.productId,
-          cartId: cart?.cart.cartId,
-          auth: auth.currentUser?.uid
-        })
+
         const response : ResponseBody<CartAndCartItemAndProduct> = await UseAddToCart({
           productId: product?.productId,
           cartId: cart?.cart.cartId,

@@ -28,7 +28,7 @@ export default function NavLeft() {
                 >
                     Dashboard
                 </Typography>
-                <StyledLink href="#">
+                <StyledLink href={`/order/${auth.currentUser?.uid}`}>
                     <MenuItem sx={{
                         fontWeight: "700",
                         color: "black"

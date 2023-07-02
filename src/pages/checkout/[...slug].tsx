@@ -19,7 +19,7 @@ import { useAppDispatch } from "@/feature/Hooks";
 import { setOpen } from "@/feature/Alert";
 import { useRouter } from "next/router";
 import CheckoutAddress from "@/component/checkout/Address";
-import CheckoutCartTable from "@/component/checkout/CartTable";
+import CheckoutCartTable from "@/component/checkout/CheckoutCartTable";
 import CheckoutPayment from "@/component/checkout/Payment";
 import CheckoutInfor from "@/component/checkout/Infor";
 

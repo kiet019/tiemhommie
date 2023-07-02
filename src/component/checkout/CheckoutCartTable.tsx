@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { formatNumber } from "../../../package/function";
 import { ProductAndCartItem } from "../../../package/model/product/product-and-cartItem";
+import { ProductAndOrderItem } from "../../../package/model/order";
 
 export default function CheckoutCartTable({
   orderList,

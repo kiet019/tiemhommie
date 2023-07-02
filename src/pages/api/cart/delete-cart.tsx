@@ -11,7 +11,6 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
       });
   try {
     const params = req.query as unknown as UseDeleteCartItemBody;
-    console.log(params)
     const response = await fetch(
       `http://localhost:8080/api/cartItem/deleteCartItems?cartItemId=${params.cartItemId}`,
       {

@@ -25,14 +25,7 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
                 userId: params.userId,
             }),
         });
-        console.log({
-            cartItemsList: params.cartItemsList,
-            deliveryAddressId: params.deliveryAddressId,
-            note: "",
-            paymentId: params.paymentId,
-            totalPayment: params.totalPayment,
-            userId: params.userId,
-        })
+
         if (response.status === 200) {
             res.status(200).json({
                 data: null,

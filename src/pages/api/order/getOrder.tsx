@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { UseGetAddressUserUidBody } from "../../../../package/model/api/address/get-user";
-import { UseLogin } from "../../../../package/function/auth/use-login";
+import { Product } from "../../../../package/model/product";
+import { UseSearchProductNameBody } from "../../../../package/model/api/product/search-name";
+import { UseGetOrderBody } from "../../../../package/model/order/get";
+import { OrderAndOrderItem } from "../../../../package/model/order";
 
 export default async function Api(req: NextApiRequest, res: NextApiResponse) {
   req.method == "GET" ? null : res.status(400).json({
@@ -9,12 +11,12 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
     message: "error",
   })
   try {
-    const params = req.query as unknown as UseGetAddressUserUidBody;
+    const params = req.query as unknown as UseGetOrderBody;
     const response = await fetch(
-        `http://localhost:8080/api/address/getAddressByUserUid?userUid=${params.userUid}`
+      `http://localhost:8080/api/order/getOrderAndOrderItemByUserId?userId=${params.userId}`
     );
     if (response.status === 200) {
-      const data: Address[] = await response.json();
+      const data: OrderAndOrderItem = await response.json();
       res.status(200).json({
         data: data,
         status: "success",

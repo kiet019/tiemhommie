@@ -5,6 +5,7 @@ import {
   TextField,
   InputAdornment,
   styled,
+  Dialog,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -84,7 +85,7 @@ export default function Profile({ user }: { user: User }) {
       setOpenLoading(false);
     }
   };
-  const handleDeleteAddress = async ({addressId} : {addressId: number}) => {
+  const handleDeleteAddress = async ({ addressId }: { addressId: number }) => {
     try {
       setOpenLoading(true);
       const response = await UseDeleteAddress({
@@ -162,7 +163,7 @@ export default function Profile({ user }: { user: User }) {
                       <InputAdornment
                         position="end"
                         onClick={() => {
-                          setOpenConfirmPopup(true)
+                          setOpenConfirmPopup(true);
                         }}
                       >
                         <ClearIcon
@@ -175,10 +176,16 @@ export default function Profile({ user }: { user: User }) {
                     ),
                   }}
                 />
-                <ConfirmPopup openConfirmPopup={openConfirmPopup} setOpenConfirmPopup={setOpenConfirmPopup} func={handleDeleteAddress} addressId={userAddress.addressId}/>
+                <ConfirmPopup
+                  openConfirmPopup={openConfirmPopup}
+                  setOpenConfirmPopup={setOpenConfirmPopup}
+                  func={handleDeleteAddress}
+                  addressId={userAddress.addressId}
+                  key={userAddress.addressId}
+                />
               </>
             ))
-          : null}
+          : <Dialog open={true}/>}
       </Paper>
     </Layout2>
   );

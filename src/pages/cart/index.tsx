@@ -6,6 +6,7 @@ import {
   Toolbar,
   Box,
   CardMedia,
+  Dialog,
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { setOpen } from "@/feature/Alert";
@@ -126,13 +127,7 @@ export default function Cart() {
           />
         </Paper>
       ) : (
-        <CardMedia
-          component="img"
-          src="/assets/images/no-cart.jpg"
-          sx={{
-            padding: "0rem 10rem",
-          }}
-        />
+        <Dialog open={true}/>
       )}
       <Card
         sx={{

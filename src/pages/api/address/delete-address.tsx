@@ -11,7 +11,6 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
     });
   try {
     const params = req.query as unknown as UseDeleteAddressBody;
-    console.log(params.addressId)
     const response = await fetch(`http://localhost:8080/api/address/deleteAddress?addressId=${params.addressId}`, {
         method: "DELETE",
         headers: {

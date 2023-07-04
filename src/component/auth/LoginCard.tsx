@@ -62,7 +62,7 @@ export default function LoginCard() {
           open: true,
           severity: data.status
         }))
-        router.push("/")
+        data.data.userRole === 1 ? router.push("/admin") : router.push("/")
       }
     } catch (error: any) {
       dispatch(setOpen({

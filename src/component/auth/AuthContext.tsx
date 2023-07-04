@@ -16,6 +16,7 @@ export const UserContext = createContext(userInit);
 
 export default function AuthProvider({ children }: any) {
   const [open, setOpen] = useState<boolean>(false)
+  const router = useRouter()
   const openLoading = open
   const setOpenLoading = (openLoading : boolean) => {
     setOpen(openLoading)
@@ -31,6 +32,7 @@ export default function AuthProvider({ children }: any) {
     try {
       if (currentUser !== null) {
         const user = await UseLogin({ userUid: currentUser.uid })
+        if (user.data?.userRole === 1) router.push("/admin")
         if (user.data !== null) {
           setOpenLoading(true)
           const data = await UseGetCartUserUid({

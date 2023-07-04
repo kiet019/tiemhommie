@@ -1,8 +1,9 @@
-import { Auth, signInWithEmailAndPassword, signInWithPopup, User } from "firebase/auth";
+import { Auth, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { FetcherProps, fetcher } from "../../fetcher";
 import { ResponseBody } from "../../model/api";
 import { UseLoginBody } from "../../model/api/auth/login";
 import { UseLoginGoogleBody } from "../../model/api/auth/loginGoogle";
+import { User } from "../../model/user";
 
 export const UseLoginGoogle = async ({ auth, provider }: UseLoginGoogleBody<Auth>) => {
         const response = await signInWithPopup(auth, provider)

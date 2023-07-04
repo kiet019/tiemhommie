@@ -32,7 +32,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 };
 
 export default function Order({ user, orderStatus }: { user: User, orderStatus : any }) {
-  console.log(user)
   const { data, isLoading, mutate } = UseGetOrderHook({
     userId: user.userId,
   });

@@ -23,6 +23,7 @@ import CheckoutCartTable from "@/component/checkout/CheckoutCartTable";
 import CheckoutPayment from "@/component/checkout/Payment";
 import CheckoutInfor from "@/component/checkout/Infor";
 import { auth } from "@/config/firebase";
+import { createUrlVNPAY } from "../../../package/function/cart/VNPAY";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
@@ -85,21 +86,23 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
   const onSubmit = async (data: any) => {
     try {
       setOpenLoading(true)
-      const response = await UseCreateOrder({
-        cartItemsList: orderList,
-        deliveryAddressId: selectAddress?.addressId,
-        paymentId: selectPayment?.paymentId,
-        totalPayment: total,
-        userUid: auth.currentUser?.uid
-      })
-      dispatch(
-        setOpen({
-          open: true,
-          message: response.message,
-          severity: response.status,
-        })
-      );
-      router.push("/")
+      const url = createUrlVNPAY(total, router.asPath)
+      console.log(url)
+      // const response = await UseCreateOrder({
+      //   cartItemsList: orderList,
+      //   deliveryAddressId: selectAddress?.addressId,
+      //   paymentId: selectPayment?.paymentId,
+      //   totalPayment: total,
+      //   userUid: auth.currentUser?.uid
+      // })
+      // dispatch(
+      //   setOpen({
+      //     open: true,
+      //     message: response.message,
+      //     severity: response.status,
+      //   })
+      // );
+      // router.push("/")
     } catch (error: any) {
       dispatch(
         setOpen({

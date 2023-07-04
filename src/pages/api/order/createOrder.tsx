@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { UseCreateOrderBody } from "../../../../package/model/api/order/createBody";
+import { CartItems } from "../../../../package/model/cartItems";
+import { ProductAndCartItem } from "../../../../package/model/product/product-and-cartItem";
 
 export default async function Api(req: NextApiRequest, res: NextApiResponse) {
     req.method == "POST"
@@ -11,18 +13,28 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
         });
     try {
         const params = req.body as unknown as UseCreateOrderBody;
+        console.log(params)
+
+        const cartItemsList : CartItems[] | undefined = params.cartItemsList?.map((cartItem : ProductAndCartItem) => {
+            return {
+                cartId: 0,
+                cartItemId: cartItem.cartItemId,
+                productId: cartItem.product.productId,
+                quantity: cartItem.quantity
+            }
+        })
         const response = await fetch("http://localhost:8080/api/order/makeOrder", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                cartItemsList: params.cartItemsList,
+                cartItemsList,
                 deliveryAddressId: params.deliveryAddressId,
                 note: "",
                 paymentId: params.paymentId,
                 totalPayment: params.totalPayment,
-                userId: params.userId,
+                userUid: params.userUid,
             }),
         });
 

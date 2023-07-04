@@ -3,7 +3,7 @@ import { ResponseBody } from "../../model/api";
 import { UseCreateOrderBody } from "../../model/api/order/createBody";
 
 
-export const UseCreateOrder = async ({ cartItemsList, deliveryAddressId, paymentId, totalPayment, userId }: UseCreateOrderBody) => {
+export const UseCreateOrder = async ({ cartItemsList, deliveryAddressId, paymentId, totalPayment, userUid }: UseCreateOrderBody) => {
     const url = `http://localhost:3000/api/order/createOrder`;
     const props: FetcherProps = {
         method: "POST",
@@ -15,7 +15,7 @@ export const UseCreateOrder = async ({ cartItemsList, deliveryAddressId, payment
             deliveryAddressId,
             paymentId,
             totalPayment,
-            userId
+            userUid
         },
         options: {
             next: {

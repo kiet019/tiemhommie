@@ -4,7 +4,7 @@ import { User } from "../user";
 
 export interface OrderAndOrderItem {
   orderId: number;
-  userId: number;
+  user: User;
   payment: Payment;
   orderDate: string;
   delivery: Delivery;
@@ -14,6 +14,7 @@ export interface OrderAndOrderItem {
   orderStatus: OrderStatus
   productAndOrderItemList: ProductAndOrderItem[];
 }
+
 
 export interface Delivery {
     deliveryId: number,
@@ -29,16 +30,4 @@ export interface ProductAndOrderItem {
 export interface OrderStatus {
   statusId : number
   status: string
-}
-export interface OrderAndOrderItemOne {
-  orderId: number;
-  user: User;
-  payment: Payment;
-  orderDate: string;
-  delivery: Delivery;
-  note: string;
-  totalPayment: number;
-  paymentDate: string;
-  orderStatus: OrderStatus
-  productAndOrderItemList: ProductAndOrderItem[];
 }

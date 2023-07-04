@@ -181,7 +181,7 @@ export default function Profile({ user }: { user: User }) {
                   setOpenConfirmPopup={setOpenConfirmPopup}
                   func={handleDeleteAddress}
                   addressId={userAddress.addressId}
-                  key={userAddress.addressId}
+                  key={key}
                 />
               </>
             ))

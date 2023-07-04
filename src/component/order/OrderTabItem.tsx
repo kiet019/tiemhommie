@@ -14,7 +14,6 @@ const OrderTabItem = ({
     (orderAndOrderItem) =>
       orderAndOrderItem.orderStatus.statusId === Number.parseInt(value)
   );
-  console.log(filterOrder);
   return (
     <TabPanel
       value={value}

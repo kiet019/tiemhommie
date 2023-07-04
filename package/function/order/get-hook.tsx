@@ -19,7 +19,7 @@ export const UseGetOrderHook = ({ userId }: UseGetOrderBody) => {
     url,
     (url: string) => fetcher(url, props),{
       revalidateOnFocus: false,
-      dedupingInterval: 60000
+      dedupingInterval: 20000
     }
   );
 

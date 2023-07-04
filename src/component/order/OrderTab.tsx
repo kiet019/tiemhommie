@@ -24,7 +24,6 @@ export default function OrderTab({ orderStatusList, data }: {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
-
   return (
     <>
       <TabContext value={value}>

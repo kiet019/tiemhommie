@@ -95,7 +95,7 @@ const OrderViewTable = ({
         </TableHead>
         <TableBody>
           {orderList !== undefined
-            ? orderList.map((row: ProductAndCartItem, index: any) => (
+            ? orderList.map((row: ProductAndOrderItem, index: any) => (
                 <TableRow
                   key={index}
                   sx={{

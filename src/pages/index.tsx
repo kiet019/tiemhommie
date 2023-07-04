@@ -5,6 +5,7 @@ import { UseGetCategoryProduct } from "../../package/function/category/use-get-p
 import { ResponseBody } from "../../package/model/api";
 import { CategoryAndProduct } from "../../package/model/category/category-and-product";
 
+
 export async function getServerSideProps() {
   const response: ResponseBody<CategoryAndProduct> =
     await UseGetCategoryProduct();
@@ -21,6 +22,9 @@ interface Props {
   categoryAndProduct: any[];
   slider: string[];
 }
+
+
+
 export default function Home({ categoryAndProduct, slider }: Props) {
   return (
     <TopBanner slider={slider}>

@@ -1,89 +1,61 @@
-export const createUrlVNPAY = (amount: number, returnUrl: string) => {
-    const vnp_Version = `vnp_Version=2.1.0`
-    const vnp_Command = `vnp_Command=pay`
-    const vnp_OrderInfo = `vnp_OrderInfo=Thanh+toan+don+hang`
-    const vnp_OrderType = `vnp_OrderType=other`
-    const vnp_TxnRef = `vnp_TxnRef=${generateUniqueRandomNumber()}`
-    const vnp_IpAddr = `vnp_IpAddr=127.0.0.1`
-    const vnp_TmnCode = `vnp_TmnCode=${TmnCode}`
-    const baseUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"
-    const vnp_Amount = `vnp_Amount=${amount}`
-    const vnp_CreateDate = `vnp_CreateDate=${getCurrentDateTime()}`
-    const vnp_CurrCode = `vnp_CurrCode=VND`
-    const vnp_Locale = `vnp_Locale=vn`
-    const vnp_ReturnUrl = `vnp_ReturnUrl=${returnUrl}`
-    const vnp_SecureHash = `vnp_SecureHash=${HashSecret}`
-    const vnp_ExpireDate = `vnp_ExpireDate${getExpireDateTime()}`
-    return `${baseUrl}?${vnp_Version}&${vnp_Command}&${vnp_OrderInfo}&${vnp_OrderType}&${vnp_TxnRef}&${vnp_IpAddr}&${vnp_TmnCode}&${vnp_Amount}&${vnp_CreateDate}&${vnp_CurrCode}&${vnp_Locale}&${vnp_ReturnUrl}&${vnp_SecureHash}&${vnp_ExpireDate}`
-}
 
-const TmnCode = `DIY6W4QL`
-const HashSecret = `RRKFYAWVWBRWYCPWBKEDXTQNGLBEKBAI`
-
-
-function getCurrentDateTime() {
-    const now = new Date();
-    const timeZoneOffset = 7 * 60; // Độ chênh lệch múi giờ, tính bằng phút (GMT+7 = 7 giờ)
-
-    // Thực hiện cộng thời gian chênh lệch múi giờ
-    now.setMinutes(now.getMinutes() + timeZoneOffset);
-
-    // Lấy các giá trị ngày, tháng, năm, giờ, phút, giây từ đối tượng Date
-    const year = now.getFullYear().toString();
-    const month = (now.getMonth() + 1).toString().padStart(2, "0");
-    const day = now.getDate().toString().padStart(2, "0");
-    const hours = now.getHours().toString().padStart(2, "0");
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    const seconds = now.getSeconds().toString().padStart(2, "0");
-
-    // Kết hợp các giá trị thành chuỗi định dạng "yyyyMMddHHmmss"
-    const formattedDateTime = `${year}${month}${day}${hours}${minutes}${seconds}`;
-    return formattedDateTime;
-}
-
-
-
-function getExpireDateTime() {
-    const now = new Date();
-    const timeZoneOffset = 7 * 60; // Độ chênh lệch múi giờ, tính bằng phút (GMT+7 = 7 giờ)
-    // Thực hiện cộng thời gian chênh lệch múi giờ
-    now.setMinutes(now.getMinutes() + timeZoneOffset);
-    // Lấy ngày của ngày tiếp theo
-    const nextDay = new Date(now);
-    nextDay.setDate(nextDay.getDate() + 1);
-    // Lấy các giá trị ngày, tháng, năm, giờ, phút, giây từ đối tượng Date
-    const year = nextDay.getFullYear().toString();
-    const month = (nextDay.getMonth() + 1).toString().padStart(2, "0");
-    const day = nextDay.getDate().toString().padStart(2, "0");
-    const hours = nextDay.getHours().toString().padStart(2, "0");
-    const minutes = nextDay.getMinutes().toString().padStart(2, "0");
-    const seconds = nextDay.getSeconds().toString().padStart(2, "0");
-    // Kết hợp các giá trị thành chuỗi định dạng "yyyyMMddHHmmss"
-    const formattedDateTime = `${year}${month}${day}${hours}${minutes}${seconds}`;
+import moment from 'moment';
+import config from '../../../src/config/default.json'
+export const createPaymentUrl = (total : number, returnUrl : string) => {
     
-    return formattedDateTime;
-  }
+    process.env.TZ = 'Asia/Ho_Chi_Minh';
+    
+    let date = new Date();
+    let createDate = moment(date).format('YYYYMMDDHHmmss');
+    
+    let ipAddr = `104.28.205.74`
+    
+    let tmnCode = config.vnp_TmnCode;
+    let secretKey = config.vnp_HashSecret;
+    let vnpUrl = config.vnp_Url;
+    let orderId = moment(date).format('DDHHmmss');
+    let amount = total;
+    
+    let locale = `vn`
+    let currCode = 'VND';
+    let vnp_Params : any = {};
+    vnp_Params['vnp_Version'] = '2.1.0';
+    vnp_Params['vnp_Command'] = 'pay';
+    vnp_Params['vnp_TmnCode'] = tmnCode;
+    vnp_Params['vnp_Locale'] = locale;
+    vnp_Params['vnp_CurrCode'] = currCode;
+    vnp_Params['vnp_TxnRef'] = orderId;
+    vnp_Params['vnp_OrderInfo'] = 'Thanh toan cho ma GD:' + orderId;
+    vnp_Params['vnp_OrderType'] = 'other';
+    vnp_Params['vnp_Amount'] = amount * 100;
+    vnp_Params['vnp_ReturnUrl'] = returnUrl;
+    vnp_Params['vnp_IpAddr'] = ipAddr;
+    vnp_Params['vnp_CreateDate'] = createDate;
 
-// Sử dụng hàm để lấy thời gian hiện tại;
+    vnp_Params = sortObject(vnp_Params);
 
-function generateUniqueRandomNumber() {
-    const generatedNumbers = new Set();
+    let querystring = require('qs');
+    let signData = querystring.stringify(vnp_Params, { encode: false });
+    let crypto = require("crypto");     
+    let hmac = crypto.createHmac("sha512", secretKey);
+    let signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex"); 
+    vnp_Params['vnp_SecureHash'] = signed;
+    vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
+    return vnpUrl
+};
 
-    // Hàm hỗ trợ để sinh số ngẫu nhiên trong khoảng từ min đến max (bao gồm cả min và max)
-    function getRandomNumber(min: number, max: number) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+function sortObject(obj : any) {
+	let sorted : any = {};
+	let str = [];
+	let key;
+	for (key in obj){
+		if (obj.hasOwnProperty(key)) {
+		str.push(encodeURIComponent(key));
+		}
+	}
+	str.sort();
+    for (key = 0; key < str.length; key++) {
+        sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, "+");
     }
-
-    const currentDate = new Date().toISOString().slice(0, 10); // Lấy ngày hiện tại dưới định dạng "yyyy-MM-dd"
-
-    while (true) {
-        const randomNumber = getRandomNumber(1, 100); // Sinh số ngẫu nhiên từ 1 đến 100 (có thể thay đổi theo nhu cầu)
-
-        const uniqueNumber = currentDate + randomNumber.toString().padStart(2, "0"); // Kết hợp ngày và số ngẫu nhiên thành một chuỗi
-
-        if (!generatedNumbers.has(uniqueNumber)) {
-            generatedNumbers.add(uniqueNumber);
-            return uniqueNumber;
-        }
-    }
+    return sorted;
 }

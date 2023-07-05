@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Grid, Paper, Typography, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import {
@@ -83,37 +83,59 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
   const { handleSubmit } = useForm();
   const { setOpenLoading, openLoading } = useContext(UserContext);
   const router = useRouter()
-  const onSubmit = async (data: any) => {
-    try {
-      setOpenLoading(true)
-      const url = createPaymentUrl(total, `http://localhost:3000${router.asPath}`)
-      router.push(url)
-      // const response = await UseCreateOrder({
-      //   cartItemsList: orderList,
-      //   deliveryAddressId: selectAddress?.addressId,
-      //   paymentId: selectPayment?.paymentId,
-      //   totalPayment: total,
-      //   userUid: auth.currentUser?.uid
-      // })
-      // dispatch(
-      //   setOpen({
-      //     open: true,
-      //     message: response.message,
-      //     severity: response.status,
-      //   })
-      // );
-      // router.push("/")
-    } catch (error: any) {
-      dispatch(
-        setOpen({
-          open: true,
-          message: error.message,
-          severity: "error"
-        })
-      );
-    } finally {
-      setOpenLoading(false)
+  const { vnp_TransactionStatus } = router.query
+  useEffect(() => {
+    const handleCreateOrder = async() => {
+      try {
+        setOpenLoading(true)
+        const addressId = localStorage.getItem("addressId")
+        const paymentId = localStorage.getItem("paymentId")
+        const response = await UseCreateOrder({
+          cartItemsList: orderList,
+          deliveryAddressId: Number.parseInt(addressId !== null ? addressId : "-1"),
+          paymentId: Number.parseInt(paymentId !== null ? paymentId : "-1"),
+          totalPayment: total,
+          userUid: user?.userUid
+        })  
+        dispatch(
+          setOpen({
+            open: true,
+            message: response.message,
+            severity: response.status,
+          })
+        );
+        router.push("/")
+      } catch (error: any) {
+        dispatch(
+          setOpen({
+            open: true,
+            message: error.message,
+            severity: "error"
+          })
+        );
+      } finally {
+        setOpenLoading(false)
+      }
     }
+
+    console.log(vnp_TransactionStatus)
+    if (vnp_TransactionStatus !== undefined && vnp_TransactionStatus === "00") {
+      handleCreateOrder()
+    }
+  }, [vnp_TransactionStatus])
+
+  const onSubmit = async (data: any) => {
+    if (selectPayment !== null && selectAddress != null) {
+      localStorage.setItem("addressId", selectAddress.addressId.toString())
+      localStorage.setItem("paymentId", selectPayment.paymentId.toString())
+    }
+    let url = `#`
+    if (selectPayment?.paymentId === 1) {
+      url = createPaymentUrl(total, `http://localhost:3000${router.asPath}`)
+    } else {
+      url = `${router.asPath}?vnp_TransactionStatus=00`
+    }
+    router.push(url)
   };
   return (
     <Layout1>

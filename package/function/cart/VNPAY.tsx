@@ -1,5 +1,5 @@
 
-import moment from 'moment';
+import moment from '../../../node_modules/moment/moment';
 import config from '../../../src/config/default.json'
 export const createPaymentUrl = (total : number, returnUrl : string) => {
     

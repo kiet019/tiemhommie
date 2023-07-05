@@ -67,6 +67,9 @@ export default function OrderTable({
               <StyledTableHead>Tổng giá</StyledTableHead>
             </TableCell>
             <TableCell>
+              <StyledTableHead>Phương thức thanh toán</StyledTableHead>
+            </TableCell>
+            <TableCell>
               <StyledTableHead>Chi tiết</StyledTableHead>
             </TableCell>
           </TableRow>
@@ -80,6 +83,7 @@ export default function OrderTable({
                   <TableCell align="center">{row.orderId}</TableCell>
                   <TableCell align="center">{row.orderDate}</TableCell>
                   <TableCell align="center">{row.totalPayment} VND</TableCell>
+                  <TableCell align="center">{row.payment.paymentType}</TableCell>
                   <TableCell align="center">
                     <StyledLink href={`/order/detail/${row.orderId}`}>chi tiết</StyledLink>
                   </TableCell>

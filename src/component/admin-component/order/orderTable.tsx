@@ -12,6 +12,8 @@ import {
   TablePagination,
 } from "@mui/material";
 import React, { useState } from "react";
+import { ProductAndOrderItem } from "../../../../package/model/product/product-and-cartItem";
+import { OrderAndOrderItem } from "../../../../package/model/order";
 const StyledTableHead = styled(Typography)(() => ({
   fontWeight: 700,
 }));
@@ -42,36 +44,45 @@ export default function OrderAdminTable({ order }: any) {
         <TableHead>
           <TableRow>
             <TableCell>
-              <StyledTableHead width={60}>Mã</StyledTableHead>
+              <StyledTableHead width={20}>Mã</StyledTableHead>
             </TableCell>
             <TableCell>
-              <StyledTableHead width={250}>Sản phẩm</StyledTableHead>
+              <StyledTableHead width={200}>Sản phẩm</StyledTableHead>
             </TableCell>
-            <TableCell width={200}>
-              <StyledTableHead>Thanh toán</StyledTableHead>
+            <TableCell width={250}>
+              <StyledTableHead>Phương thức thanh toán</StyledTableHead>
             </TableCell>
-            <TableCell>
-              <StyledTableHead>Địa chỉ</StyledTableHead>
+
+            <TableCell width={180}>
+              <StyledTableHead >Tên khách hàng</StyledTableHead>
             </TableCell>
             <TableCell width={120}>
               <StyledTableHead>Tổng giá</StyledTableHead>
+            </TableCell>
+            <TableCell width={200}>
+              <StyledTableHead>Ngày thanh toán</StyledTableHead>
+            </TableCell>
+            <TableCell width={120}>
+              <StyledTableHead>Cập nhật</StyledTableHead>
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {order !== null && order !== undefined ? (
             order.slice(0 + page * rowsPerPage, (page + 1) * rowsPerPage)
-            .map((row: any) => (
+            .map((row: OrderAndOrderItem) => (
               <TableRow key={row.orderId}>
                 <TableCell>{row.orderId}</TableCell>
+                
                 <TableCell>
-                    {row.productAndOrderItemList.map((item : any, key : any) => (
+                    {row.productAndOrderItemList.map((item : ProductAndOrderItem, key : any) => (
                         <Typography variant="subtitle2" key={key}>{item.quantity} x {item.product.productName}</Typography>
                     ))}
                 </TableCell>
                 <TableCell>{row.payment.paymentType}</TableCell>
-                <TableCell>{row.delivery.address}</TableCell>
+                <TableCell>{row.user.userName}</TableCell>
                 <TableCell>{row.totalPayment}</TableCell>
+                <TableCell>{row.paymentDate}</TableCell>
               </TableRow>
             ))
           ) : (

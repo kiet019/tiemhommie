@@ -14,7 +14,7 @@ export default function NavigationLeft() {
   return (
     <Paper
       sx={{
-        width: "20rem",
+        width: "16rem",
         height: "100vh",
         backgroundColor: "#0f1a34",
         color: setup.color,

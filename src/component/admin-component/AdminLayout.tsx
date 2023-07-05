@@ -13,10 +13,10 @@ export default function AdminLayout({ children }: any) {
       </Head>
       <div style={{
         display: "grid",
-        gridTemplateColumns: "20rem auto"
+        gridTemplateColumns: "16rem auto"
       }}>
         <div style={{
-          width: "20rem",
+          width: "16rem",
           height: "100vh"
         }}>
         <NavigationLeft />

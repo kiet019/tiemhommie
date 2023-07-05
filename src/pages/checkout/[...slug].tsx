@@ -104,7 +104,6 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
             severity: response.status,
           })
         );
-        router.push("/")
       } catch (error: any) {
         dispatch(
           setOpen({
@@ -112,15 +111,19 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
             message: error.message,
             severity: "error"
           })
-        );
-      } finally {
-        setOpenLoading(false)
+          );
+        } finally {
+          setOpenLoading(false)
+          router.push("/cart")
       }
     }
 
-    console.log(vnp_TransactionStatus)
-    if (vnp_TransactionStatus !== undefined && vnp_TransactionStatus === "00") {
-      handleCreateOrder()
+    if (vnp_TransactionStatus !== undefined) {
+      if (vnp_TransactionStatus === "00") {
+        handleCreateOrder()
+      } else {
+        router.push("/cart")
+      }
     }
   }, [vnp_TransactionStatus])
 
@@ -131,7 +134,7 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
     }
     let url = `#`
     if (selectPayment?.paymentId === 1) {
-      url = createPaymentUrl(total, `http://localhost:3000${router.asPath}`)
+      url = createPaymentUrl(total, `http://localhost:3000/${router.asPath}`)
     } else {
       url = `${router.asPath}?vnp_TransactionStatus=00`
     }

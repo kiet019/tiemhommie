@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Paper, Typography, Button } from "@mui/material";
+import { Grid, Paper, Typography, Button, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
-import {
-  GetStaticPaths,
-  GetStaticProps,
-} from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import Layout1 from "@/component/theme/layout/Layout1";
 import { UserContext } from "@/component/auth/AuthContext";
 import { UseGetCartUserUid } from "../../../package/function/cart/use-get-user";
@@ -36,9 +33,9 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const slug = params?.slug;
   let orderList: ProductAndCartItem[] | undefined = [];
   let total: number = 0;
-  let paymentList: Payment[] | null = []
-  let addressList: Address[] | null = []
-  let user: User | null = null
+  let paymentList: Payment[] | null = [];
+  let addressList: Address[] | null = [];
+  let user: User | null = null;
   try {
     if (slug !== undefined) {
       const orderIds = slug[0].split(",");
@@ -48,15 +45,15 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
           orderIds.includes(cartItem.cartItemId.toString())
       );
       total = Number.parseInt(slug[1]);
-      const response2 = await UseGetAddressUserUid({ userUid: slug[2] })
-      addressList = response2.data
-      const response3 = await UseLogin({ userUid: slug[2] })
-      user = response3.data
+      const response2 = await UseGetAddressUserUid({ userUid: slug[2] });
+      addressList = response2.data;
+      const response3 = await UseLogin({ userUid: slug[2] });
+      user = response3.data;
     }
-    const response1 = await UseGetPaymentList()
-    paymentList = response1.data
+    const response1 = await UseGetPaymentList();
+    paymentList = response1.data;
   } catch (error: any) {
-    console.log(error)
+    console.log(error);
   }
   return {
     props: {
@@ -64,7 +61,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       total,
       paymentList,
       addressList,
-      user
+      user,
     },
   };
 };
@@ -72,31 +69,35 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 interface Props {
   orderList: ProductAndCartItem[] | undefined;
   total: number;
-  paymentList: Payment[] | null
-  addressList: Address[] | null
-  user: User | null
+  paymentList: Payment[] | null;
+  addressList: Address[] | null;
+  user: User | null;
 }
 const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
   const [selectAddress, setSelectAddress] = useState<Address | null>(null);
   const [selectPayment, setSelectPayment] = useState<Payment | null>(null);
-  const dispatch = useAppDispatch()
-  const { handleSubmit } = useForm();
+  const dispatch = useAppDispatch();
+  const { handleSubmit, register } = useForm();
   const { setOpenLoading, openLoading } = useContext(UserContext);
-  const router = useRouter()
-  const { vnp_TransactionStatus } = router.query
+  const router = useRouter();
+  const { vnp_TransactionStatus } = router.query;
   useEffect(() => {
-    const handleCreateOrder = async() => {
+    const handleCreateOrder = async () => {
       try {
-        setOpenLoading(true)
-        const addressId = localStorage.getItem("addressId")
-        const paymentId = localStorage.getItem("paymentId")
+        setOpenLoading(true);
+        const addressId = localStorage.getItem("addressId");
+        const paymentId = localStorage.getItem("paymentId");
+        const note = localStorage.getItem("note") 
         const response = await UseCreateOrder({
           cartItemsList: orderList,
-          deliveryAddressId: Number.parseInt(addressId !== null ? addressId : "-1"),
+          deliveryAddressId: Number.parseInt(
+            addressId !== null ? addressId : "-1"
+          ),
           paymentId: Number.parseInt(paymentId !== null ? paymentId : "-1"),
           totalPayment: total,
-          userUid: user?.userUid
-        })  
+          userUid: user?.userUid,
+          note: note !== null ? note : ""
+        });
         dispatch(
           setOpen({
             open: true,
@@ -109,44 +110,71 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
           setOpen({
             open: true,
             message: error.message,
-            severity: "error"
+            severity: "error",
           })
-          );
-        } finally {
-          setOpenLoading(false)
-          router.push("/cart")
+        );
+      } finally {
+        setOpenLoading(false);
+        router.push("/cart");
       }
-    }
+    };
 
     if (vnp_TransactionStatus !== undefined) {
       if (vnp_TransactionStatus === "00") {
-        handleCreateOrder()
+        handleCreateOrder();
       } else {
-        router.push("/cart")
+        router.push("/cart");
       }
     }
-  }, [vnp_TransactionStatus])
+  }, [vnp_TransactionStatus]);
 
   const onSubmit = async (data: any) => {
     if (selectPayment !== null && selectAddress != null) {
-      localStorage.setItem("addressId", selectAddress.addressId.toString())
-      localStorage.setItem("paymentId", selectPayment.paymentId.toString())
+      localStorage.setItem("addressId", selectAddress.addressId.toString());
+      localStorage.setItem("paymentId", selectPayment.paymentId.toString());
+      data.note !== undefined ? localStorage.setItem("note", data.note) : localStorage.setItem("note", "")
     }
-    let url = `#`
+    let url = `#`;
     if (selectPayment?.paymentId === 1) {
-      url = createPaymentUrl(total, `http://localhost:3000/${router.asPath}`)
+      url = createPaymentUrl(total, `http://localhost:3000/${router.asPath}`);
     } else {
-      url = `${router.asPath}?vnp_TransactionStatus=00`
+      url = `${router.asPath}?vnp_TransactionStatus=00`;
     }
-    router.push(url)
+    router.push(url);
   };
   return (
     <Layout1>
       <form onSubmit={handleSubmit(onSubmit)}>
-
         <Grid container spacing={2}>
           <Grid item xs={8}>
             <CheckoutCartTable orderList={orderList} />
+            <Paper
+              sx={{
+                marginTop: "1rem",
+                padding: "1rem",
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: "700",
+                }}
+              >
+                Lời nhắn
+              </Typography>
+              <TextField
+                sx={{
+                  marginTop: "1rem",
+                }}
+                id="outlined-multiline-static"
+                fullWidth
+                multiline
+                rows={2}
+                {...register("note", {
+                  required: false
+                })}
+              />
+            </Paper>
             <CheckoutAddress
               selectAddress={selectAddress}
               setSelectAddress={setSelectAddress}
@@ -165,7 +193,11 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
                 setSelectPayment={setSelectPayment}
                 paymentList={paymentList}
               />
-              <CheckoutInfor total={total} selectAddress={selectAddress} selectPayment={selectPayment}/>
+              <CheckoutInfor
+                total={total}
+                selectAddress={selectAddress}
+                selectPayment={selectPayment}
+              />
             </Paper>
           </Grid>
         </Grid>

@@ -23,8 +23,8 @@ export const orderColor = (statusId: number) => {
     return "#878787";
   } else if (statusId === 2) {
     return "#0047FF";
-  } else if (statusId === 2) {
-    return "#0047FF";
+  } else if (statusId === 3) {
+    return "orange";
   } else if (statusId === 4) {
     return "#5BB700";
   } else if (statusId === 5) {
@@ -83,7 +83,7 @@ const orderId = ({ orderId }: { orderId: number }) => {
         })
       );
     } finally {
-      await mutate()
+      await mutate();
       setOpenLoading(false);
     }
   };
@@ -134,6 +134,23 @@ const orderId = ({ orderId }: { orderId: number }) => {
               marginTop: "2rem",
             }}
           >
+            <StyledText
+              sx={{
+                color: setup.border,
+                fontSize: "1.3rem",
+              }}
+            >
+              Lời nhắn
+            </StyledText>
+            <StyledText>{data.data.note}</StyledText>
+          </Paper>
+          <Paper
+            sx={{
+              padding: "1rem 4rem 1rem",
+              marginBottom: "2rem",
+              marginTop: "2rem",
+            }}
+          >
             <div
               style={{
                 display: "flex",
@@ -162,7 +179,8 @@ const orderId = ({ orderId }: { orderId: number }) => {
                   fontWeight: 600,
                   paddingTop: "0.7rem",
                   paddingBottom: "0.7rem",
-                  display: data.data.orderStatus.statusId !== 1 ? "none" : "block"
+                  display:
+                    data.data.orderStatus.statusId !== 1 ? "none" : "block",
                 }}
                 onClick={handleCancel}
                 variant="contained"

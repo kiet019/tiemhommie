@@ -1,6 +1,5 @@
 import { AppBar,  Box, Button, Container, Grid, Tooltip } from "@mui/material";
 import React, { useContext, useState } from "react";
-import LogoTitle from "../theme/title/LogoTitle";
 import NavButton from "../theme/button/NavButton";
 import SearchBox from "../theme/search/SearchBox";
 import { categoryList, setup } from "@/config/setup";
@@ -8,9 +7,10 @@ import CartIconButton from "../theme/button/CartIconButton";
 import AccountIconButton from "../theme/button/AccountIconButton";
 import { CheckInView } from "@/checkInScreen";
 import { auth } from "@/config/firebase";
-import { signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 import { UserContext } from "../auth/AuthContext";
+import UrlImage from "../theme/image/Image1";
+import LogoTitle from "../theme/title/LogoTitle";
 
 const Navigation1 = () => {
   const [isVisible, setIsVisible] = useState<any>(true);
@@ -34,7 +34,13 @@ const Navigation1 = () => {
               gridTemplateColumns: "25% 55% 20%",
             }}
           >
-            <LogoTitle />
+            {/* <LogoTitle /> */}
+            <div style={{
+              height: "5rem",
+              paddingRight: "1rem"
+            }}>
+              <UrlImage height="6rem" img="/assets/images/logo.jpg" url="/"/>
+            </div>
             <Box flexGrow={1}>
               <SearchBox />
             </Box>

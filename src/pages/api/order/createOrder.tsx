@@ -23,6 +23,7 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
                 quantity: cartItem.quantity
             }
         })
+        console.log(params)
         const response = await fetch("http://localhost:8080/api/order/makeOrder", {
             method: "POST",
             headers: {
@@ -31,7 +32,7 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
             body: JSON.stringify({
                 cartItemsList,
                 deliveryAddressId: params.deliveryAddressId,
-                note: "",
+                note: params.note,
                 paymentId: params.paymentId,
                 totalPayment: params.totalPayment,
                 userUid: params.userUid,

@@ -33,7 +33,7 @@ export default function AuthProvider({ children }: any) {
       if (currentUser !== null) {
         const user = await UseLogin({ userUid: currentUser.uid })
         if (user.data?.userRole === 1) router.push("/admin")
-        if (user.data !== null) {
+        if (user.data !== null && user.data?.userRole !== 1) {
           setOpenLoading(true)
           const data = await UseGetCartUserUid({
             userUid: currentUser.uid

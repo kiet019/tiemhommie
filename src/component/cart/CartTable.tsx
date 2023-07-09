@@ -10,6 +10,7 @@ import { Button, CardMedia, Checkbox, Typography, styled } from "@mui/material";
 import { formatNumber } from "../../../package/function";
 import ChangeQuatityButton from "../theme/button/ChangeQuantityButton";
 import ConfirmPopup from "../theme/confirm/ConfirmPopup";
+import { ProductAndCartItem } from "../../../package/model/product/product-and-cartItem";
 
 const StyledTableHeadCell = styled(TableCell)({
   fontWeight: 700,
@@ -48,7 +49,7 @@ export default function CartTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {cart.productAndCartItemList.map((row: any, key: any) => (
+          {cart.productAndCartItemList.map((row : ProductAndCartItem, key: any) => (
             <TableRow key={key}>
               <TableCell component="th" scope="row">
                 <div
@@ -59,6 +60,7 @@ export default function CartTable({
                 >
                   <Checkbox
                     color="success"
+                    disabled={row.product.quantity === 0}
                     onChange={(event) => {
                       if (event.target.checked) {
                         setOrderList([...orderList, row.cartItemId]);

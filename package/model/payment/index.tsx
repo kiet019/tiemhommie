@@ -1,4 +1,5 @@
 export interface Payment {
     paymentId: number,
-    paymentType: string
+    paymentType: string,
+    paymentCost: number
 }

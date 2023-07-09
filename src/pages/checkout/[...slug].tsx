@@ -87,7 +87,7 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
         setOpenLoading(true);
         const addressId = localStorage.getItem("addressId");
         const paymentId = localStorage.getItem("paymentId");
-        const note = localStorage.getItem("note") 
+        const note = localStorage.getItem("note");
         const response = await UseCreateOrder({
           cartItemsList: orderList,
           deliveryAddressId: Number.parseInt(
@@ -96,7 +96,7 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
           paymentId: Number.parseInt(paymentId !== null ? paymentId : "-1"),
           totalPayment: total,
           userUid: user?.userUid,
-          note: note !== null ? note : ""
+          note: note !== null ? note : "",
         });
         dispatch(
           setOpen({
@@ -132,7 +132,9 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
     if (selectPayment !== null && selectAddress != null) {
       localStorage.setItem("addressId", selectAddress.addressId.toString());
       localStorage.setItem("paymentId", selectPayment.paymentId.toString());
-      data.note !== undefined ? localStorage.setItem("note", data.note) : localStorage.setItem("note", "")
+      data.note !== undefined
+        ? localStorage.setItem("note", data.note)
+        : localStorage.setItem("note", "");
     }
     let url = `#`;
     if (selectPayment?.paymentId === 1) {
@@ -171,7 +173,7 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
                 multiline
                 rows={2}
                 {...register("note", {
-                  required: false
+                  required: false,
                 })}
               />
             </Paper>
@@ -194,6 +196,7 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
                 paymentList={paymentList}
               />
               <CheckoutInfor
+                cost={(selectPayment?.paymentCost || 0)}
                 total={total}
                 selectAddress={selectAddress}
                 selectPayment={selectPayment}

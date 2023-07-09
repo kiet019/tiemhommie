@@ -21,7 +21,7 @@ const Navigation1 = () => {
       <AppBar
         sx={{
           backgroundColor: setup.backgroundColor,
-          paddingBottom: "0.6rem",
+          paddingBottom: "0.5rem",
           boxShadow: isVisible ? "none" : null
         }}
       >
@@ -36,7 +36,7 @@ const Navigation1 = () => {
           >
             {/* <LogoTitle /> */}
             <div style={{
-              height: "5rem",
+              height: "4.5rem",
               paddingRight: "1rem"
             }}>
               <UrlImage height="6rem" img="/assets/images/logo.jpg" url="/"/>

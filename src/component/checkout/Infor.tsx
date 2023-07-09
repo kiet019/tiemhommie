@@ -4,7 +4,7 @@ import { formatNumber } from '../../../package/function'
 import { Payment } from '../../../package/model/payment'
 import { StyledButton } from '../theme/button/StyledButton'
 
-const CheckoutInfor = ({ total, selectAddress, selectPayment }: { total: number, selectAddress: Address | null, selectPayment: Payment | null }) => {
+const CheckoutInfor = ({ total, selectAddress, selectPayment, cost }: { total: number, selectAddress: Address | null, selectPayment: Payment | null, cost: number }) => {
     return (
         <div
             style={{
@@ -65,7 +65,7 @@ const CheckoutInfor = ({ total, selectAddress, selectPayment }: { total: number,
                         color: "gray",
                     }}
                 >
-                    {formatNumber(30000)} VND
+                    {formatNumber(cost)} VND
                 </Typography>
             </div>
             <div
@@ -91,7 +91,7 @@ const CheckoutInfor = ({ total, selectAddress, selectPayment }: { total: number,
                         color: "gray",
                     }}
                 >
-                    {formatNumber(30000 + +total)} VND
+                    {formatNumber(cost + +total)} VND
                 </Typography>
             </div>
             <StyledButton

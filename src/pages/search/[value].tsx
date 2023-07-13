@@ -40,7 +40,8 @@ export default function Search({ value }: Props) {
     let productFilter = data?.data as Product[]
     if (categoryNumber !== -1) {
       productFilter = productFilter.filter((product) => categoryNumber === product.categoryId)
-    } else if ( priceNumber !== -1){
+    } 
+    if ( priceNumber !== -1){
       if (priceNumber === 0) {
         productFilter = productFilter.filter((product) => product.price < 50000)
       } else if (priceNumber === 1) {
@@ -50,7 +51,8 @@ export default function Search({ value }: Props) {
       } else if (priceNumber === 3) {
         productFilter = productFilter.filter((product) => 500000 < product.price && product.price < 800000)
       }
-    } else if ( statusNumber !== -1) {
+    }
+    if ( statusNumber !== -1) {
       if (statusNumber === 0) {
         productFilter = productFilter.filter((product) => product.status === "bán chạy")
       } else if (statusNumber === 1) {

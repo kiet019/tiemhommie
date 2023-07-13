@@ -114,6 +114,7 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
             severity: "error",
           })
         );
+        router.push(`/cart`);
       } finally {
         setOpenLoading(false);
         

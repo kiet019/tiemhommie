@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Paper, Typography, Button, TextField } from "@mui/material";
+import { Grid, Paper, Typography, Button, TextField, Select } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Layout1 from "@/component/theme/layout/Layout1";
@@ -140,7 +140,7 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
     }
     let url = `#`;
     if (selectPayment?.paymentId === 1) {
-      url = createPaymentUrl(total, `http://localhost:3000/${router.asPath}`);
+      url = createPaymentUrl(total + selectPayment.paymentCost, `http://localhost:3000/${router.asPath}`);
     } else {
       url = `${router.asPath}?vnp_TransactionStatus=00`;
     }

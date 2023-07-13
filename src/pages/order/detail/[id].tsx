@@ -132,6 +132,7 @@ const orderId = ({ orderId }: { orderId: number }) => {
               padding: "1rem 4rem 1rem",
               marginBottom: "2rem",
               marginTop: "2rem",
+              display: data.data.note !== "" ? "block" : "none"
             }}
           >
             <StyledText

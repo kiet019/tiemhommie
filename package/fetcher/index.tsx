@@ -8,7 +8,6 @@ export interface FetcherProps {
 }
 export const fetcher = async (url: string, props: FetcherProps) => {
   const { options, body, headers, method } = props;
-
   try {
     const response = await fetch(url, {
       method: method,
@@ -26,3 +25,4 @@ export const fetcher = async (url: string, props: FetcherProps) => {
     throw new Error("Error fetching data: " + error.message);
   }
 };
+

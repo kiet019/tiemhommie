@@ -13,7 +13,6 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
         });
     try {
         const params = req.body as unknown as UseCreateOrderBody;
-        console.log(params)
 
         const cartItemsList : CartItems[] | undefined = params.cartItemsList?.map((cartItem : ProductAndCartItem) => {
             return {
@@ -23,7 +22,6 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
                 quantity: cartItem.quantity
             }
         })
-        console.log(params)
         const response = await fetch("http://localhost:8080/api/order/makeOrder", {
             method: "POST",
             headers: {
@@ -38,10 +36,10 @@ export default async function Api(req: NextApiRequest, res: NextApiResponse) {
                 userUid: params.userUid,
             }),
         });
-
         if (response.status === 200) {
+            const orderId = await response.json()
             res.status(200).json({
-                data: null,
+                data: orderId,
                 status: "success",
                 message: "Success, Adding success",
             });

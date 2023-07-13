@@ -146,6 +146,7 @@ export default function OrderAdminTable({ order }: any) {
                       sx={{
                         color: "white",
                       }}
+                      disabled= {row.orderStatus.statusId === 5}
                       onClick={() => {
                         setOpenPopup(true);
                         setSelectOrder(row);
@@ -168,7 +169,7 @@ export default function OrderAdminTable({ order }: any) {
         >
           <DialogTitle>Cập nhật trạng thái</DialogTitle>
           <DialogContent>
-            {status.map((item) => (
+            {/* {status.map((item) => (
               <MenuItem
                 sx={{
                   color: orderColor(item.statusId),
@@ -179,7 +180,30 @@ export default function OrderAdminTable({ order }: any) {
               >
                 {item.status}
               </MenuItem>
-            ))}
+            ))} */}
+            {selectOrder?.orderStatus.statusId === 1 ? (              <MenuItem
+                sx={{
+                  color: orderColor(2),
+                }}
+                onClick={() => {
+                  handleUpdateStatus(2);
+                }}
+              >
+                Đã xác nhận
+              </MenuItem>
+              
+            ) : status.map((item) => (
+              <MenuItem
+                sx={{
+                  color: orderColor(item.statusId),
+                }}
+                onClick={() => {
+                  handleUpdateStatus(item.statusId);
+                }}
+              >
+                {item.status}
+              </MenuItem>
+            ))} 
           </DialogContent>
           <DialogActions>
             <Button

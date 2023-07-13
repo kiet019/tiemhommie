@@ -88,7 +88,7 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
         const addressId = localStorage.getItem("addressId");
         const paymentId = localStorage.getItem("paymentId");
         const note = localStorage.getItem("note");
-        const response = await UseCreateOrder({
+        const data = await UseCreateOrder({
           cartItemsList: orderList,
           deliveryAddressId: Number.parseInt(
             addressId !== null ? addressId : "-1"
@@ -101,10 +101,11 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
         dispatch(
           setOpen({
             open: true,
-            message: response.message,
-            severity: response.status,
+            message: data.message,
+            severity: data.status,
           })
         );
+        router.push(`/order/detail/${data.data}`);
       } catch (error: any) {
         dispatch(
           setOpen({
@@ -115,7 +116,7 @@ const Order = ({ orderList, total, paymentList, addressList, user }: Props) => {
         );
       } finally {
         setOpenLoading(false);
-        router.push("/cart");
+        
       }
     };
 

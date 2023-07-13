@@ -60,7 +60,7 @@ export default function CartTable({
                 >
                   <Checkbox
                     color="success"
-                    disabled={row.product.quantity === 0}
+                    disabled={row.product.quantity === 0 && row.product.status !== "xoá"}
                     onChange={(event) => {
                       if (event.target.checked) {
                         setOrderList([...orderList, row.cartItemId]);

@@ -36,7 +36,7 @@ const Navigation1 = () => {
           >
             {/* <LogoTitle /> */}
             <div style={{
-              height: "4.5rem",
+              height: "4.8rem",
               paddingRight: "1rem"
             }}>
               <UrlImage height="6rem" img="/assets/images/logo.jpg" url="/"/>
